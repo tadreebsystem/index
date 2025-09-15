@@ -1,0 +1,261 @@
+<?php mb_internal_encoding('UTF-8'); ?>
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تدريبي | المنصة العربية للتدريب التعاوني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{
+  --brand:#0a66b2;--brand-600:#0a5aa0;--brand-700:#084a85;--text:#0d1b2a;--muted:#5a6b7b;--bg:#f7f9fc;--card:#ffffff;--line:#e6eef6;--shadow:0 10px 30px rgba(10,102,178,.12)
+}
+@media(prefers-color-scheme:dark){
+  :root{--text:#e8eef6;--muted:#a9b7c5;--bg:#0c1520;--card:#111c29;--line:#152235;--shadow:0 10px 30px rgba(3,21,37,.6)}
+}
+html[data-mode="dark"]{--text:#e8eef6;--muted:#a9b7c5;--bg:#0c1520;--card:#111c29;--line:#152235;--shadow:0 10px 30px rgba(3,21,37,.6)}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,Arial}
+a{text-decoration:none;color:inherit}
+.container{width:min(1250px,92%);margin:auto}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:14px;padding:12px 18px;font-weight:800;letter-spacing:.2px;transition:.2s}
+.btn:hover{background:var(--brand-700);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--brand);border-radius:14px;padding:12px 16px;font-weight:700}
+.tag{display:inline-block;background:rgba(10,102,178,.08);color:var(--brand);padding:6px 10px;border-radius:999px;font-size:13px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.nav{background:rgba(17,28,41,.7)}}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{width:48px;height:48px;object-fit:contain}
+.brand .title{font-weight:900;color:var(--brand);font-size:22px}
+.navlinks{display:flex;gap:18px;align-items:center}
+.mode-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
+.hero{position:relative}
+.hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:28px 0}
+.hero .lead{display:flex;flex-direction:column;gap:14px}
+.hero h1{margin:0;font-size:40px;line-height:1.25}
+.hero p{margin:0;color:var(--muted);line-height:2}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.video{position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);background:#000;min-height:280px}
+.video video{width:100%;height:100%;display:block}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.section{padding:26px 0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.card h3{margin:0 0 8px;font-size:20px;color:var(--brand-700)}
+.card p{margin:0;color:var(--muted);line-height:1.9}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.item{display:flex;gap:10px;align-items:flex-start}
+.item .dot{width:12px;height:12px;border-radius:50%;background:var(--brand);margin-top:9px;flex:0 0 12px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center}
+.k strong{display:block;font-size:30px;color:var(--brand)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.step .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(10,102,178,.1);color:var(--brand);font-weight:800}
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.q summary{cursor:pointer;padding:16px;font-weight:700}
+.q p{margin:0;padding:0 16px 16px;color:var(--muted);line-height:1.9}
+.cta{display:grid;place-items:center;text-align:center;background:linear-gradient(180deg,rgba(10,102,178,.09),transparent);border:1px solid var(--line);border-radius:22px;padding:26px}
+.footer{margin-top:30px;border-top:1px solid var(--line)}
+.footer .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 0;color:var(--muted);font-size:14px}
+.loader{position:fixed;inset:0;display:grid;place-items:center;background:var(--card);z-index:9999;transition:.5s ease}
+.loader.hide{opacity:0;visibility:hidden}
+.loader .box{display:flex;flex-direction:column;align-items:center;gap:12px}
+.loader img{width:90px;height:90px;object-fit:contain}
+.spinner{width:70px;height:70px;border-radius:50%;border:6px solid var(--line);border-top-color:var(--brand);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:1080px){
+  .hero .grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr}
+  .split{grid-template-columns:1fr}
+  .kpi{grid-template-columns:1fr 1fr}
+  .timeline{grid-template-columns:1fr 1fr}
+  .faq{grid-template-columns:1fr}
+  .navlinks{display:none}
+}
+</style>
+</head>
+<body>
+<div id="loader" class="loader">
+  <div class="box">
+    <img src="assets/logo.png" alt="Tadrebe">
+    <div style="font-weight:800;color:var(--brand)">جارٍ التحميل</div>
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="container wrap">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Tadrebe">
+      <div class="title">تدريبي</div>
+    </div>
+    <nav class="navlinks">
+      <a href="#about">عن المنصة</a>
+      <a href="#roles">أقسام النظام</a>
+      <a href="#features">المزايا</a>
+      <a href="#faq">الأسئلة</a>
+      <a href="login.php" class="btn">تسجيل الدخول</a>
+    </nav>
+    <button id="mode" class="mode-toggle" aria-label="تبديل الوضع">
+      <span id="modeText">الوضع: تلقائي</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero section">
+  <div class="container grid">
+    <div class="lead">
+      <span class="tag">منصة عربية بواجهة منظمة وباللون الأزرق</span>
+      <h1>منصة التدريب التعاوني لإيجاد الفرص، التقديم عليها، ومتابعتها بسهولة</h1>
+      <p>تجمع تدريبي بين المتدربين وجهات التدريب والمشرفين والإدارة في منظومة واحدة متكاملة. ابحث حسب التخصص والموقع والمدة، قدّم خلال دقائق، وتلقَّ الإشعارات فور تغير حالة طلبك. تدعم المنصة الوضع الليلي والنهاري لتجربة مريحة في أي وقت.</p>
+      <div class="actions">
+        <a href="/login.php" class="btn">ابدأ الآن</a>
+        <a href="#about" class="btn-ghost">تعرّف أكثر</a>
+      </div>
+      <div class="pill-row">
+        <span class="tag">بحث ذكي</span>
+        <span class="tag">تقديم فوري</span>
+        <span class="tag">إشعارات مباشرة</span>
+        <span class="tag">إدارة المتدربين</span>
+      </div>
+    </div>
+    <div class="video">
+      <video autoplay muted playsinline loop poster="assets/video-poster.jpg">
+        <source src="media/2.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container cards">
+    <div class="card">
+      <h3>لماذا تدريبي؟</h3>
+      <p>واجهة عربية منظمة، تجربة سريعة وآمنة، ولوحة تحكم لكل دور. نحرص على تسهيل الوصول للفرص وتحسين التواصل بين جميع الأطراف لضمان تجربة تدريبية ذات جودة.</p>
+    </div>
+    <div class="card">
+      <h3>كيف نعمل؟</h3>
+      <p>تصفح الفرص المعتمدة من الجهات، قدّم بطلب موحد، تابع الحالة لحظة بلحظة، وامنح تقييمك بعد نهاية التجربة لرفع جودة التدريب في السوق.</p>
+    </div>
+    <div class="card">
+      <h3>الأمان والموثوقية</h3>
+      <p>صلاحيات واضحة، حفظ آمن للبيانات، وإشعارات فورية. ندعم الخصوصية ونضمن شفافية حالة الطلب من الإرسال وحتى القبول أو الاعتذار.</p>
+    </div>
+  </div>
+</section>
+
+<section id="roles" class="section">
+  <div class="container split">
+    <div class="card">
+      <h3>للمتدرب</h3>
+      <ul class="list">
+        <li class="item"><span class="dot"></span><span>تسجيل ملف شخصي شامل وتصفية الفرص حسب المدينة والتخصص والمدة.</span></li>
+        <li class="item"><span class="dot"></span><span>التقديم المباشر ومتابعة الحالة: قيد المراجعة، مقبول، أو مرفوض مع إشعارات.</span></li>
+        <li class="item"><span class="dot"></span><span>حفظ الفرص المفضلة وتقييم تجربة التدريب بعد الانتهاء.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>لجهة التدريب</h3>
+      <ul class="list">
+        <li class="item"><span class="dot"></span><span>إنشاء فرص تدريب بمعلومات دقيقة ومواعيد نهائية واضحة.</span></li>
+        <li class="item"><span class="dot"></span><span>إدارة طلبات المتقدمين وتغيير الحالة مع إرسال تنبيهات تلقائية.</span></li>
+        <li class="item"><span class="dot"></span><span>التواصل مع المتقدمين عبر الرسائل وإدارة الملف التعريفي للمنشأة.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>للمشرف</h3>
+      <ul class="list">
+        <li class="item"><span class="dot"></span><span>متابعة تقدم المتدربين المعينين لديه وتوثيق الإنجاز.</span></li>
+        <li class="item"><span class="dot"></span><span>اعتماد إتمام التدريب وإرسال الملاحظات والتقييمات.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>للإدارة</h3>
+      <ul class="list">
+        <li class="item"><span class="dot"></span><span>مراجعة واعتماد جهات التدريب ومراقبة جودة الفرص المنشورة.</span></li>
+        <li class="item"><span class="dot"></span><span>إرسال إعلانات عامة ومتابعة مؤشرات الاستخدام والتقارير.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="kpi">
+      <div class="k"><strong>+100</strong>فرصة تدريب معتمدة</div>
+      <div class="k"><strong>+50</strong>جهة تدريب</div>
+      <div class="k"><strong>+1,000</strong>متقدم نشط</div>
+      <div class="k"><strong>24/7</strong>إشعارات فورية</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 style="margin:0 0 12px">رحلة المستخدم</h2>
+    <div class="timeline">
+      <div class="step"><div class="n">1</div><div style="margin-top:8px;font-weight:800">تسجيل</div><div style="color:var(--muted)">إنشاء حساب وتعريف الاهتمامات والسيرة.</div></div>
+      <div class="step"><div class="n">2</div><div style="margin-top:8px;font-weight:800">بحث دقيق</div><div style="color:var(--muted)">تصفية حسب المدينة، المدة، المجال.</div></div>
+      <div class="step"><div class="n">3</div><div style="margin-top:8px;font-weight:800">تقديم وتتبع</div><div style="color:var(--muted)">إرسال الطلب وتلقي تحديثات الحالة.</div></div>
+      <div class="step"><div class="n">4</div><div style="margin-top:8px;font-weight:800">تقييم وخبرة</div><div style="color:var(--muted)">تقييم الجهة وبناء ملف خبراتك.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <div class="container cards">
+    <div class="card"><h3>واجهة منظمة</h3><p>أقسام واضحة وبطاقات معلومات مختصرة تساعدك على الوصول لما تريد بسرعة.</p></div>
+    <div class="card"><h3>دعم الدارك واللايت</h3><p>المنصة تتكيّف تلقائياً مع جهازك ويمكنك اختيار الوضع يدويًا.</p></div>
+    <div class="card"><h3>إشعارات ذكية</h3><p>تحديثات مستمرة لحالة الطلب والرسائل المهمة دون تأخير.</p></div>
+  </div>
+</section>
+
+<section id="faq" class="section">
+  <div class="container faq">
+    <details class="q"><summary>هل المنصة عربية بالكامل؟</summary><p>نعم، تدعم العربية بالكامل بتصميم يمين-إلى-يسار مع عناية بالتفاصيل.</p></details>
+    <details class="q"><summary>كيف أتلقى تحديثات الطلب؟</summary><p>عند تغيير الحالة يصلك إشعار فوري داخل المنصة.</p></details>
+    <details class="q"><summary>هل أستطيع حفظ الفرص للمراجعة لاحقًا؟</summary><p>يمكنك حفظ الفرص ضمن المفضلة والعودة إليها وقتما تشاء.</p></details>
+    <details class="q"><summary>هل تدعم الأجهزة المحمولة؟</summary><p>التصميم متجاوب ويعمل بسلاسة على الهواتف والأجهزة اللوحية.</p></details>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container cta">
+    <div style="font-size:24px;font-weight:900;margin-bottom:8px;color:var(--brand-700)">ابدأ رحلتك التدريبية الآن</div>
+    <p style="margin:0 0 14px;color:var(--muted)">إنشئ حسابك خلال دقائق وشارك في أفضل الفرص المتاحة.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <a href="/register_user.php" class="btn">إنشاء حساب</a>
+      <a href="/login.php" class="btn-ghost">تسجيل الدخول</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container wrap">
+    <div>© <?=date('Y')?> تدريبي</div>
+    <div>سياسة الخصوصية • الشروط</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var m=localStorage.getItem('mode');
+  if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');document.getElementById('modeText').textContent='الوضع: ليلي'}
+  else if(m==='light'){document.documentElement.setAttribute('data-mode','light');document.getElementById('modeText').textContent='الوضع: نهاري'}
+})();
+document.getElementById('mode').addEventListener('click',function(){
+  var html=document.documentElement;var cur=html.getAttribute('data-mode');
+  if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');document.getElementById('modeText').textContent='الوضع: نهاري'}
+  else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');document.getElementById('modeText').textContent='الوضع: تلقائي'}
+  else {html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');document.getElementById('modeText').textContent='الوضع: ليلي'}
+});
+document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){document.getElementById('loader').classList.add('hide')},800)});
+</script>
+</body>
+</html>
