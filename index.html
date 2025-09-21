@@ -3,261 +3,389 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تدريبي | المنصة العربية للتدريب التعاوني</title>
+<title>لوحة التحكم | تدريبي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-:root{
-  --brand:#0a66b2;--brand-600:#0a5aa0;--brand-700:#084a85;--text:#0d1b2a;--muted:#5a6b7b;--bg:#f7f9fc;--card:#ffffff;--line:#e6eef6;--shadow:0 10px 30px rgba(10,102,178,.12)
-}
-@media(prefers-color-scheme:dark){
-  :root{--text:#e8eef6;--muted:#a9b7c5;--bg:#0c1520;--card:#111c29;--line:#152235;--shadow:0 10px 30px rgba(3,21,37,.6)}
-}
-html[data-mode="dark"]{--text:#e8eef6;--muted:#a9b7c5;--bg:#0c1520;--card:#111c29;--line:#152235;--shadow:0 10px 30px rgba(3,21,37,.6)}
-html,body{height:100%}
+:root{--brand:#0a66b2;--brand-700:#084a85;--bg:#f5f8fc;--card:#ffffff;--line:#e6eef6;--text:#0d1b2a;--muted:#5d6f82;--shadow:0 12px 40px rgba(10,102,178,.12)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}}
+html[data-mode="dark"]{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}
 body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,Arial}
-a{text-decoration:none;color:inherit}
-.container{width:min(1250px,92%);margin:auto}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:14px;padding:12px 18px;font-weight:800;letter-spacing:.2px;transition:.2s}
-.btn:hover{background:var(--brand-700);transform:translateY(-1px)}
-.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--brand);border-radius:14px;padding:12px 16px;font-weight:700}
-.tag{display:inline-block;background:rgba(10,102,178,.08);color:var(--brand);padding:6px 10px;border-radius:999px;font-size:13px}
-.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
-@media(prefers-color-scheme:dark){.nav{background:rgba(17,28,41,.7)}}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-.brand{display:flex;align-items:center;gap:10px}
-.brand img{width:48px;height:48px;object-fit:contain}
-.brand .title{font-weight:900;color:var(--brand);font-size:22px}
-.navlinks{display:flex;gap:18px;align-items:center}
-.mode-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
-.hero{position:relative}
-.hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:28px 0}
-.hero .lead{display:flex;flex-direction:column;gap:14px}
-.hero h1{margin:0;font-size:40px;line-height:1.25}
-.hero p{margin:0;color:var(--muted);line-height:2}
-.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
-.video{position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);background:#000;min-height:280px}
-.video video{width:100%;height:100%;display:block}
-.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.section{padding:26px 0}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.card h3{margin:0 0 8px;font-size:20px;color:var(--brand-700)}
-.card p{margin:0;color:var(--muted);line-height:1.9}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.list{margin:0;padding:0;list-style:none;display:grid;gap:10px}
-.item{display:flex;gap:10px;align-items:flex-start}
-.item .dot{width:12px;height:12px;border-radius:50%;background:var(--brand);margin-top:9px;flex:0 0 12px}
-.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.k{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center}
-.k strong{display:block;font-size:30px;color:var(--brand)}
-.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
-.step .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(10,102,178,.1);color:var(--brand);font-weight:800}
-.faq{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.q{background:var(--card);border:1px solid var(--line);border-radius:16px}
-.q summary{cursor:pointer;padding:16px;font-weight:700}
-.q p{margin:0;padding:0 16px 16px;color:var(--muted);line-height:1.9}
-.cta{display:grid;place-items:center;text-align:center;background:linear-gradient(180deg,rgba(10,102,178,.09),transparent);border:1px solid var(--line);border-radius:22px;padding:26px}
-.footer{margin-top:30px;border-top:1px solid var(--line)}
-.footer .wrap{display:flex;justify-content:space-between;align-items:center;padding:16px 0;color:var(--muted);font-size:14px}
-.loader{position:fixed;inset:0;display:grid;place-items:center;background:var(--card);z-index:9999;transition:.5s ease}
-.loader.hide{opacity:0;visibility:hidden}
-.loader .box{display:flex;flex-direction:column;align-items:center;gap:12px}
-.loader img{width:90px;height:90px;object-fit:contain}
-.spinner{width:70px;height:70px;border-radius:50%;border:6px solid var(--line);border-top-color:var(--brand);animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:1080px){
-  .hero .grid{grid-template-columns:1fr}
-  .cards{grid-template-columns:1fr}
-  .split{grid-template-columns:1fr}
-  .kpi{grid-template-columns:1fr 1fr}
-  .timeline{grid-template-columns:1fr 1fr}
-  .faq{grid-template-columns:1fr}
-  .navlinks{display:none}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--card);border-left:1px solid var(--line);position:sticky;top:0;height:100vh;padding:14px 12px;overflow:auto;z-index:40}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:8px}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand .t{font-weight:900;color:var(--brand);font-size:18px}
+.menu{display:flex;flex-direction:column;gap:6px}
+.link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:inherit;text-decoration:none}
+.link:hover,.link.active{background:rgba(10,102,178,.08)}
+.badge{margin-right:auto;background:rgba(10,102,178,.12);color:var(--brand);border-radius:999px;padding:2px 8px;font-size:12px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+@media(prefers-color-scheme:dark){.topbar{background:rgba(17,28,41,.65)}}
+.topbar .right{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:9px 14px;font-weight:800;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--line)}
+.container{padding:16px;max-width:1320px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:15px;color:var(--muted)}
+.kpi{display:flex;align-items:baseline;gap:6px}
+.kpi .n{font-size:26px;font-weight:900;color:var(--brand)}
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.table th,.table td{padding:10px;background:var(--card);border:1px solid var(--line)}
+.table th{color:var(--muted);font-weight:700}
+.table td:first-child,.table th:first-child{border-radius:8px 0 0 8px}
+.table td:last-child,.table th:last-child{border-radius:0 8px 8px 0}
+.small{font-size:12px;color:var(--muted)}
+.flex{display:flex;gap:8px;align-items:center}
+textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);padding:10px}
+.mode{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.chartBox{height:260px;max-height:260px;overflow:hidden}
+.chartBox canvas{width:100% !important;height:100% !important;display:block}
+.burger{display:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:30;opacity:0;visibility:hidden;transition:.25s}
+.backdrop.show{opacity:1;visibility:visible}
+.flash{border-color:#9ad0ff;background:rgba(10,102,178,.06);margin-bottom:10px;display:none}
+/* محرر النص */
+.editor{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:8px;border-bottom:1px solid var(--line);background:linear-gradient(0deg,rgba(10,102,178,.06),transparent)}
+.tool{border:1px solid var(--line);background:var(--card);padding:6px 10px;border-radius:8px;cursor:pointer}
+.tool[aria-pressed="true"]{outline:2px solid var(--brand)}
+.editable{min-height:120px;padding:10px}
+@media(max-width:1200px){.grid{grid-template-columns:1fr 1fr}.cols-2{grid-template-columns:1fr}}
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:fixed;inset:0 0 0 auto;width:min(280px,86vw);transform:translateX(100%);transition:.25s;box-shadow:var(--shadow);height:100vh;overflow:auto}
+  .sidebar.open{transform:translateX(0)}
+  .burger{display:inline-block}
 }
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div id="loader" class="loader">
-  <div class="box">
-    <img src="logo.png" alt="Tadrebe">
-    <div style="font-weight:800;color:var(--brand)">جارٍ التحميل</div>
-    <div class="spinner"></div>
-  </div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><img src="logo.png" alt=""><div class="t">تدريبي</div></a>
+    <nav class="menu">
+      <a class="link active" href="index.html">لوحة التحكم</a>
+      <a class="link" href="users.html">إدارة المستخدمين</a>
+      <a class="link" href="providers.html" id="nav-providers">مزودو التدريب <span class="badge" id="badge-pending">0</span></a>
+      <a class="link" href="listings.html">قوائم التدريب</a>
+      <a class="link" href="applications.html">الطلبات</a>
+      <a class="link" href="index.html#announce" data-close>الإعلانات والإشعارات</a>
+      <a class="link" href="index.html#monitor" data-close>مراقبة النشاط</a>
+      <a class="link" href="index.html#reports" data-close>التقارير والتحليلات</a>
+      <a class="link" href="index.html#security" data-close>الأمان والنسخ الاحتياطي</a>
+      <a class="link" href="../login.html">خروج</a>
+    </nav>
+  </aside>
+
+  <div id="backdrop" class="backdrop"></div>
+
+  <main>
+    <header class="topbar">
+      <div class="right">
+        <button id="burger" class="burger" aria-label="القائمة">☰</button>
+        <strong>مرحبًا، <span id="admin-name">مشرف</span></strong>
+        <span class="small">دور: Admin</span>
+      </div>
+      <div class="right">
+        <button id="mode" class="mode">الوضع: تلقائي</button>
+        <a class="btn ghost" href="/">الصفحة الرئيسية</a>
+      </div>
+    </header>
+
+    <div class="container">
+      <div id="flash" class="card flash"></div>
+
+      <div class="grid">
+        <div class="card"><h3>المستخدمون</h3><div class="kpi"><div class="n" id="count-users">0</div><div class="small">إجمالي</div></div></div>
+        <div class="card"><h3>مزودو التدريب</h3><div class="kpi"><div class="n" id="count-providers-all">0</div><div class="small">إجمالي</div></div><div class="small">بانتظار الموافقة: <span id="count-providers-pending">0</span></div></div>
+        <div class="card"><h3>قوائم التدريب</h3><div class="kpi"><div class="n" id="count-listings">0</div><div class="small">نشط</div></div></div>
+        <div class="card"><h3>الطلبات</h3><div class="kpi"><div class="n" id="count-apps">0</div><div class="small">إجمالي</div></div><div class="small">قيد المراجعة: <span id="count-apps-pending">0</span> • مقبول: <span id="count-apps-accepted">0</span> • مرفوض: <span id="count-apps-rejected">0</span></div></div>
+      </div>
+
+      <div class="cols-2" id="announce">
+        <div class="card">
+          <h3>مزودون بانتظار الموافقة</h3>
+          <table class="table">
+            <thead><tr><th>المنشأة</th><th>البريد</th><th>منذ</th><th>إجراء</th></tr></thead>
+            <tbody id="tbody-pending-providers"></tbody>
+          </table>
+          <div class="small">المزيد في صفحة مزودو التدريب</div>
+        </div>
+
+        <div class="card">
+          <h3>ملخص تحليلات</h3>
+          <div class="chartBox">
+            <canvas id="chartApps"></canvas>
+          </div>
+          <div class="small">توزيع حالات الطلبات</div>
+        </div>
+      </div>
+
+      <div class="cols-2" id="security">
+        <div class="card">
+          <h3>الأمان والنسخ الاحتياطي</h3>
+          <div class="small">احرص على أخذ نسخة احتياطية دورية لقاعدة البيانات.</div>
+          <div class="flex" style="margin-top:8px">
+            <a class="btn" href="#">أخذ نسخة احتياطية</a>
+            <a class="btn ghost" href="#">إعدادات الأمان</a>
+          </div>
+        </div>
+
+        <div class="card" id="monitor">
+          <h3>أحدث الطلبات</h3>
+          <table class="table">
+            <thead><tr><th>المتقدم</th><th>الفرصة</th><th>الحالة</th><th>التاريخ</th></tr></thead>
+            <tbody id="tbody-recent-apps"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>أحدث التسجيلات</h3>
+        <table class="table">
+          <thead><tr><th>المستخدم</th><th>البريد</th><th>التاريخ</th></tr></thead>
+          <tbody id="tbody-recent-users"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>نظرة عامة على المزودين</h3>
+        <table class="table">
+          <thead><tr><th>المنشأة</th><th>البريد</th><th>الحالة</th><th>منذ</th></tr></thead>
+          <tbody id="tbody-recent-providers"></tbody>
+        </table>
+      </div>
+
+      <div class="card" id="announcements">
+        <h3>محرر الإعلان</h3>
+        <div class="small">سيتم إرسال الإعلان لجميع المستخدمين</div>
+        <div class="editor" aria-label="محرر نص">
+          <div class="toolbar" role="toolbar" aria-label="شريط أدوات">
+            <button class="tool" data-cmd="bold"><b>عريض</b></button>
+            <button class="tool" data-cmd="italic"><i>مائل</i></button>
+            <button class="tool" data-cmd="underline"><u>تحته خط</u></button>
+            <button class="tool" data-cmd="insertUnorderedList">• نقاط</button>
+            <button class="tool" data-cmd="insertOrderedList">1. أرقام</button>
+            <button class="tool" id="linkBtn">رابط</button>
+            <button class="tool" id="clearBtn">مسح التنسيق</button>
+          </div>
+          <div id="announce-editor" class="editable" contenteditable="true" dir="rtl" spellcheck="false" placeholder="اكتب رسالتك هنا"></div>
+        </div>
+        <div class="flex" style="margin-top:8px">
+          <button class="btn" id="btn-send-announce">إرسال الإعلان</button>
+          <button class="btn ghost" id="btn-clear-announce">مسح</button>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
-<header class="nav">
-  <div class="container wrap">
-    <div class="brand">
-      <img src="logo.png" alt="Tadrebe">
-      <div class="title">تدريبي</div>
-    </div>
-    <nav class="navlinks">
-      <a href="#about">عن المنصة</a>
-      <a href="#roles">أقسام النظام</a>
-      <a href="#features">المزايا</a>
-      <a href="#faq">الأسئلة</a>
-      <a href="login.html" class="btn">تسجيل الدخول</a>
-    </nav>
-    <button id="mode" class="mode-toggle" aria-label="تبديل الوضع">
-      <span id="modeText">الوضع: تلقائي</span>
-    </button>
-  </div>
-</header>
-
-<section class="hero section">
-  <div class="container grid">
-    <div class="lead">
-      <span class="tag">منصة عربية بواجهة منظمة وباللون الأزرق</span>
-      <h1>منصة التدريب التعاوني لإيجاد الفرص، التقديم عليها، ومتابعتها بسهولة</h1>
-      <p>تجمع تدريبي بين المتدربين وجهات التدريب والمشرفين والإدارة في منظومة واحدة متكاملة. ابحث حسب التخصص والموقع والمدة، قدّم خلال دقائق، وتلقَّ الإشعارات فور تغير حالة طلبك. تدعم المنصة الوضع الليلي والنهاري لتجربة مريحة في أي وقت.</p>
-      <div class="actions">
-        <a href="login.html" class="btn">ابدأ الآن</a>
-        <a href="#about" class="btn-ghost">تعرّف أكثر</a>
-      </div>
-      <div class="pill-row">
-        <span class="tag">بحث ذكي</span>
-        <span class="tag">تقديم فوري</span>
-        <span class="tag">إشعارات مباشرة</span>
-        <span class="tag">إدارة المتدربين</span>
-      </div>
-    </div>
-    <div class="video">
-      <video autoplay muted playsinline loop poster="assets/video-poster.jpg">
-        <source src="2.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-</section>
-
-<section id="about" class="section">
-  <div class="container cards">
-    <div class="card">
-      <h3>لماذا تدريبي؟</h3>
-      <p>واجهة عربية منظمة، تجربة سريعة وآمنة، ولوحة تحكم لكل دور. نحرص على تسهيل الوصول للفرص وتحسين التواصل بين جميع الأطراف لضمان تجربة تدريبية ذات جودة.</p>
-    </div>
-    <div class="card">
-      <h3>كيف نعمل؟</h3>
-      <p>تصفح الفرص المعتمدة من الجهات، قدّم بطلب موحد، تابع الحالة لحظة بلحظة، وامنح تقييمك بعد نهاية التجربة لرفع جودة التدريب في السوق.</p>
-    </div>
-    <div class="card">
-      <h3>الأمان والموثوقية</h3>
-      <p>صلاحيات واضحة، حفظ آمن للبيانات، وإشعارات فورية. ندعم الخصوصية ونضمن شفافية حالة الطلب من الإرسال وحتى القبول أو الاعتذار.</p>
-    </div>
-  </div>
-</section>
-
-<section id="roles" class="section">
-  <div class="container split">
-    <div class="card">
-      <h3>للمتدرب</h3>
-      <ul class="list">
-        <li class="item"><span class="dot"></span><span>تسجيل ملف شخصي شامل وتصفية الفرص حسب المدينة والتخصص والمدة.</span></li>
-        <li class="item"><span class="dot"></span><span>التقديم المباشر ومتابعة الحالة: قيد المراجعة، مقبول، أو مرفوض مع إشعارات.</span></li>
-        <li class="item"><span class="dot"></span><span>حفظ الفرص المفضلة وتقييم تجربة التدريب بعد الانتهاء.</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>لجهة التدريب</h3>
-      <ul class="list">
-        <li class="item"><span class="dot"></span><span>إنشاء فرص تدريب بمعلومات دقيقة ومواعيد نهائية واضحة.</span></li>
-        <li class="item"><span class="dot"></span><span>إدارة طلبات المتقدمين وتغيير الحالة مع إرسال تنبيهات تلقائية.</span></li>
-        <li class="item"><span class="dot"></span><span>التواصل مع المتقدمين عبر الرسائل وإدارة الملف التعريفي للمنشأة.</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>للمشرف</h3>
-      <ul class="list">
-        <li class="item"><span class="dot"></span><span>متابعة تقدم المتدربين المعينين لديه وتوثيق الإنجاز.</span></li>
-        <li class="item"><span class="dot"></span><span>اعتماد إتمام التدريب وإرسال الملاحظات والتقييمات.</span></li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>للإدارة</h3>
-      <ul class="list">
-        <li class="item"><span class="dot"></span><span>مراجعة واعتماد جهات التدريب ومراقبة جودة الفرص المنشورة.</span></li>
-        <li class="item"><span class="dot"></span><span>إرسال إعلانات عامة ومتابعة مؤشرات الاستخدام والتقارير.</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="kpi">
-      <div class="k"><strong>+100</strong>فرصة تدريب معتمدة</div>
-      <div class="k"><strong>+50</strong>جهة تدريب</div>
-      <div class="k"><strong>+1,000</strong>متقدم نشط</div>
-      <div class="k"><strong>24/7</strong>إشعارات فورية</div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <h2 style="margin:0 0 12px">رحلة المستخدم</h2>
-    <div class="timeline">
-      <div class="step"><div class="n">1</div><div style="margin-top:8px;font-weight:800">تسجيل</div><div style="color:var(--muted)">إنشاء حساب وتعريف الاهتمامات والسيرة.</div></div>
-      <div class="step"><div class="n">2</div><div style="margin-top:8px;font-weight:800">بحث دقيق</div><div style="color:var(--muted)">تصفية حسب المدينة، المدة، المجال.</div></div>
-      <div class="step"><div class="n">3</div><div style="margin-top:8px;font-weight:800">تقديم وتتبع</div><div style="color:var(--muted)">إرسال الطلب وتلقي تحديثات الحالة.</div></div>
-      <div class="step"><div class="n">4</div><div style="margin-top:8px;font-weight:800">تقييم وخبرة</div><div style="color:var(--muted)">تقييم الجهة وبناء ملف خبراتك.</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="features" class="section">
-  <div class="container cards">
-    <div class="card"><h3>واجهة منظمة</h3><p>أقسام واضحة وبطاقات معلومات مختصرة تساعدك على الوصول لما تريد بسرعة.</p></div>
-    <div class="card"><h3>دعم الدارك واللايت</h3><p>المنصة تتكيّف تلقائياً مع جهازك ويمكنك اختيار الوضع يدويًا.</p></div>
-    <div class="card"><h3>إشعارات ذكية</h3><p>تحديثات مستمرة لحالة الطلب والرسائل المهمة دون تأخير.</p></div>
-  </div>
-</section>
-
-<section id="faq" class="section">
-  <div class="container faq">
-    <details class="q"><summary>هل المنصة عربية بالكامل؟</summary><p>نعم، تدعم العربية بالكامل بتصميم يمين-إلى-يسار مع عناية بالتفاصيل.</p></details>
-    <details class="q"><summary>كيف أتلقى تحديثات الطلب؟</summary><p>عند تغيير الحالة يصلك إشعار فوري داخل المنصة.</p></details>
-    <details class="q"><summary>هل أستطيع حفظ الفرص للمراجعة لاحقًا؟</summary><p>يمكنك حفظ الفرص ضمن المفضلة والعودة إليها وقتما تشاء.</p></details>
-    <details class="q"><summary>هل تدعم الأجهزة المحمولة؟</summary><p>التصميم متجاوب ويعمل بسلاسة على الهواتف والأجهزة اللوحية.</p></details>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container cta">
-    <div style="font-size:24px;font-weight:900;margin-bottom:8px;color:var(--brand-700)">ابدأ رحلتك التدريبية الآن</div>
-    <p style="margin:0 0 14px;color:var(--muted)">إنشئ حسابك خلال دقائق وشارك في أفضل الفرص المتاحة.</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <a href="register_user.html" class="btn">إنشاء حساب</a>
-      <a href="login.html" class="btn-ghost">تسجيل الدخول</a>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="container wrap">
-    <div>© <?=date('Y')?> تدريبي</div>
-    <div>سياسة الخصوصية • الشروط</div>
-  </div>
-</footer>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 <script>
 (function(){
-  var m=localStorage.getItem('mode');
-  if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');document.getElementById('modeText').textContent='الوضع: ليلي'}
-  else if(m==='light'){document.documentElement.setAttribute('data-mode','light');document.getElementById('modeText').textContent='الوضع: نهاري'}
+  var m=localStorage.getItem('mode');var mb=document.getElementById('mode');
+  if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');mb.textContent='الوضع: ليلي';}
+  else if(m==='light'){document.documentElement.setAttribute('data-mode','light');mb.textContent='الوضع: نهاري';}
+  mb.addEventListener('click',function(){
+    var html=document.documentElement,cur=html.getAttribute('data-mode');
+    if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');this.textContent='الوضع: نهاري';}
+    else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');this.textContent='الوضع: تلقائي';}
+    else {html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');this.textContent='الوضع: ليلي';}
+  });
+  var burger=document.getElementById('burger'),sidebar=document.getElementById('sidebar'),backdrop=document.getElementById('backdrop');
+  function openMenu(){sidebar.classList.add('open');backdrop.classList.add('show');document.body.style.overflow='hidden';}
+  function closeMenu(){sidebar.classList.remove('open');backdrop.classList.remove('show');document.body.style.overflow='';}
+  if(burger){burger.addEventListener('click',openMenu);} if(backdrop){backdrop.addEventListener('click',closeMenu);}
+  document.querySelectorAll('[data-close]').forEach(function(el){el.addEventListener('click',closeMenu);});
 })();
-document.getElementById('mode').addEventListener('click',function(){
-  var html=document.documentElement;var cur=html.getAttribute('data-mode');
-  if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');document.getElementById('modeText').textContent='الوضع: نهاري'}
-  else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');document.getElementById('modeText').textContent='الوضع: تلقائي'}
-  else {html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');document.getElementById('modeText').textContent='الوضع: ليلي'}
+</script>
+<script>
+var stateKey='tadribi_admin_state_v2';
+function nowISO(){return new Date().toISOString()}
+function arDT(d){try{return new Date(d).toLocaleString('ar-SA',{hour12:false})}catch(e){return d}}
+function seed(){
+  return {
+    admin:{name:'مشرف'},
+    users:[
+      {id:1,name:'أحمد محمد',email:'ahmad@example.com',created_at:new Date(Date.now()-864e5*1).toISOString()},
+      {id:2,name:'سارة علي',email:'sara@example.com',created_at:new Date(Date.now()-864e5*2).toISOString()},
+      {id:3,name:'خالد سالم',email:'khaled@example.com',created_at:new Date(Date.now()-864e5*3).toISOString()},
+      {id:4,name:'ريم عبدالله',email:'reem@example.com',created_at:new Date(Date.now()-864e5*5).toISOString()},
+      {id:5,name:'حسن عادل',email:'hassan@example.com',created_at:new Date(Date.now()-864e5*8).toISOString()}
+    ],
+    providers:[
+      {id:101,company_name:'شركة آفاق للتدريب',email:'info@afaq.sa',status:'pending',created_at:new Date(Date.now()-864e5*1.2).toISOString()},
+      {id:102,company_name:'أكاديمية خبرات',email:'hello@khabrat.sa',status:'approved',created_at:new Date(Date.now()-864e5*9).toISOString()},
+      {id:103,company_name:'مركز تمكين',email:'contact@tamkeen.sa',status:'pending',created_at:new Date(Date.now()-864e5*0.6).toISOString()},
+      {id:104,company_name:'معهد الريادة',email:'hi@riyadah.sa',status:'rejected',created_at:new Date(Date.now()-864e5*15).toISOString()},
+      {id:105,company_name:'منشأة نبراس',email:'team@nebras.sa',status:'approved',created_at:new Date(Date.now()-864e5*3.5).toISOString()},
+      {id:106,company_name:'قدرات للتطوير',email:'support@qudrat.sa',status:'approved',created_at:new Date(Date.now()-864e5*2.7).toISOString()}
+    ],
+    listings:[
+      {id:201,title:'تدريب تسويق رقمي',active:true,created_at:new Date(Date.now()-864e5*10).toISOString()},
+      {id:202,title:'محاسبة شركات صغيرة',active:true,created_at:new Date(Date.now()-864e5*6).toISOString()},
+      {id:203,title:'مصمم واجهات UI',active:true,created_at:new Date(Date.now()-864e5*4).toISOString()}
+    ],
+    applications:[
+      {id:301,user_id:1,listing_id:201,status:'pending',applied_at:new Date(Date.now()-864e5*0.2).toISOString()},
+      {id:302,user_id:2,listing_id:201,status:'accepted',applied_at:new Date(Date.now()-864e5*1.5).toISOString()},
+      {id:303,user_id:3,listing_id:202,status:'rejected',applied_at:new Date(Date.now()-864e5*2.2).toISOString()},
+      {id:304,user_id:4,listing_id:203,status:'pending',applied_at:new Date(Date.now()-864e5*0.8).toISOString()},
+      {id:305,user_id:5,listing_id:203,status:'accepted',applied_at:new Date(Date.now()-864e5*3.3).toISOString()}
+    ],
+    announcements:[]
+  }
+}
+function loadState(){
+  var s=localStorage.getItem(stateKey);
+  if(!s){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}
+  try{return JSON.parse(s)}catch(e){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}
+}
+function saveState(s){localStorage.setItem(stateKey,JSON.stringify(s))}
+var state=loadState();
+
+function renderCounts(){
+  var users=state.users.length;
+  var providersAll=state.providers.length;
+  var providersPending=state.providers.filter(p=>p.status==='pending').length;
+  var listingsActive=state.listings.filter(l=>l.active).length;
+  var appsAll=state.applications.length;
+  var appsPending=state.applications.filter(a=>a.status==='pending').length;
+  var appsAccepted=state.applications.filter(a=>a.status==='accepted').length;
+  var appsRejected=state.applications.filter(a=>a.status==='rejected').length;
+  document.getElementById('count-users').textContent=users;
+  document.getElementById('count-providers-all').textContent=providersAll;
+  document.getElementById('count-providers-pending').textContent=providersPending;
+  document.getElementById('count-listings').textContent=listingsActive;
+  document.getElementById('count-apps').textContent=appsAll;
+  document.getElementById('count-apps-pending').textContent=appsPending;
+  document.getElementById('count-apps-accepted').textContent=appsAccepted;
+  document.getElementById('count-apps-rejected').textContent=appsRejected;
+  document.getElementById('badge-pending').textContent=providersPending;
+  return {appsPending,appsAccepted,appsRejected};
+}
+function renderPendingProviders(){
+  var body=document.getElementById('tbody-pending-providers');
+  body.innerHTML='';
+  var list=state.providers.filter(p=>p.status==='pending').sort((a,b)=>new Date(a.created_at)-new Date(b.created_at)).slice(0,8);
+  list.forEach(function(p){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+p.company_name+'</td><td>'+p.email+'</td><td class="small">'+arDT(p.created_at)+'</td><td class="flex"><button class="btn btn-approve" data-id="'+p.id+'" data-status="approved" style="padding:6px 10px">اعتماد</button><button class="btn ghost btn-reject" data-id="'+p.id+'" data-status="rejected" style="padding:6px 10px">رفض</button></td>';
+    body.appendChild(tr);
+  });
+}
+function renderRecentApps(){
+  var body=document.getElementById('tbody-recent-apps');
+  body.innerHTML='';
+  var byIdU=Object.fromEntries(state.users.map(u=>[u.id,u]));
+  var byIdL=Object.fromEntries(state.listings.map(l=>[l.id,l]));
+  var list=[].concat(state.applications).sort((a,b)=>new Date(b.applied_at)-new Date(a.applied_at)).slice(0,8);
+  list.forEach(function(a){
+    var u=byIdU[a.user_id]||{name:'—'};
+    var l=byIdL[a.listing_id]||{title:'—'};
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+u.name+'</td><td>'+l.title+'</td><td>'+a.status+'</td><td class="small">'+arDT(a.applied_at)+'</td>';
+    body.appendChild(tr);
+  });
+}
+function renderRecentUsers(){
+  var body=document.getElementById('tbody-recent-users');
+  body.innerHTML='';
+  var list=[].concat(state.users).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,8);
+  list.forEach(function(u){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+u.name+'</td><td>'+u.email+'</td><td class="small">'+arDT(u.created_at)+'</td>';
+    body.appendChild(tr);
+  });
+}
+function renderRecentProviders(){
+  var body=document.getElementById('tbody-recent-providers');
+  body.innerHTML='';
+  var list=[].concat(state.providers).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,8);
+  list.forEach(function(p){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+p.company_name+'</td><td>'+p.email+'</td><td>'+p.status+'</td><td class="small">'+arDT(p.created_at)+'</td>';
+    body.appendChild(tr);
+  });
+}
+var chartRef=null;
+function renderChart(){
+  var c=document.getElementById('chartApps');
+  var k=renderCounts();
+  var data=[k.appsPending,k.appsAccepted,k.appsRejected];
+  if(chartRef){chartRef.destroy()}
+  if(window.Chart){
+    chartRef=new Chart(c,{type:'doughnut',data:{labels:['قيد المراجعة','مقبول','مرفوض'],datasets:[{data:data}]} ,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+  }
+}
+function flash(msg){
+  var box=document.getElementById('flash');
+  box.textContent=msg;
+  box.style.display='block';
+  setTimeout(function(){box.style.display='none'},3000);
+}
+function wireActions(){
+  document.getElementById('tbody-pending-providers').addEventListener('click',function(e){
+    var t=e.target;
+    if(t.classList.contains('btn-approve')||t.classList.contains('btn-reject')){
+      var id=parseInt(t.dataset.id,10);
+      var status=t.dataset.status;
+      var p=state.providers.find(x=>x.id===id);
+      if(p){p.status=status;saveState(state);renderAll();flash(status==='approved'?'تم اعتماد المزود':'تم رفض المزود')}
+    }
+  });
+  document.getElementById('btn-send-announce').addEventListener('click',function(){
+    var ed=document.getElementById('announce-editor');
+    var html=(ed.innerHTML||'').trim();
+    if(!html){flash('الرجاء كتابة رسالة الإعلان');return}
+    state.announcements.push({message:html,created_at:nowISO()});
+    saveState(state);
+    ed.innerHTML='';
+    flash('تم إرسال الإعلان إلى جميع المستخدمين');
+  });
+  document.getElementById('btn-clear-announce').addEventListener('click',function(){
+    document.getElementById('announce-editor').innerHTML='';
+  });
+  document.querySelectorAll('.toolbar .tool[data-cmd]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.execCommand(this.dataset.cmd,false,null);
+      this.setAttribute('aria-pressed','true');
+      setTimeout(()=>this.removeAttribute('aria-pressed'),120);
+    });
+  });
+  document.getElementById('linkBtn').addEventListener('click',function(){
+    var url=prompt('أدخل الرابط (URL):','https://');
+    if(url){document.execCommand('createLink',false,url)}
+  });
+  document.getElementById('clearBtn').addEventListener('click',function(){
+    document.execCommand('removeFormat');
+    var ed=document.getElementById('announce-editor');
+    var links=ed.querySelectorAll('a');
+    links.forEach(function(a){var t=a.textContent;a.replaceWith(document.createTextNode(t));});
+  });
+}
+function renderAdminName(){
+  var n=(state.admin&&state.admin.name)||'مشرف';
+  document.getElementById('admin-name').textContent=n;
+}
+function renderAll(){
+  renderCounts();
+  renderPendingProviders();
+  renderRecentApps();
+  renderRecentUsers();
+  renderRecentProviders();
+  renderChart();
+  renderAdminName();
+}
+document.addEventListener('DOMContentLoaded',function(){
+  renderAll();
+  wireActions();
 });
-document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){document.getElementById('loader').classList.add('hide')},800)});
 </script>
 </body>
 </html>
-
-
-

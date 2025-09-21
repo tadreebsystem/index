@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إدارة المستخدمين | تدريبي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--brand:#0a66b2;--brand-700:#084a85;--bg:#f5f8fc;--card:#ffffff;--line:#e6eef6;--text:#0d1b2a;--muted:#5d6f82;--shadow:0 12px 40px rgba(10,102,178,.12)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}}
+html[data-mode="dark"]{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,Arial}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--card);border-left:1px solid var(--line);position:sticky;top:0;height:100vh;padding:14px 12px;overflow:auto;z-index:40}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:8px}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand .t{font-weight:900;color:var(--brand);font-size:18px}
+.menu{display:flex;flex-direction:column;gap:6px}
+.link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:inherit;text-decoration:none}
+.link:hover,.link.active{background:rgba(10,102,178,.08)}
+.badge{margin-right:auto;background:rgba(10,102,178,.12);color:var(--brand);border-radius:999px;padding:2px 8px;font-size:12px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+@media(prefers-color-scheme:dark){.topbar{background:rgba(17,28,41,.65)}}
+.topbar .right{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:9px 14px;font-weight:800;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--line)}
+.container{padding:16px;max-width:1320px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:15px;color:var(--muted)}
+.table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.table th,.table td{padding:10px;background:var(--card);border:1px solid var(--line)}
+.table th{color:var(--muted);font-weight:700}
+.table td:first-child,.table th:first-child{border-radius:8px 0 0 8px}
+.table td:last-child,.table th:last-child{border-radius:0 8px 8px 0}
+.small{font-size:12px;color:var(--muted)}
+.flex{display:flex;gap:8px;align-items:center}
+input,select,textarea{border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text);padding:10px}
+.mode{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.burger{display:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:30;opacity:0;visibility:hidden;transition:.25s}
+.backdrop.show{opacity:1;visibility:visible}
+.flash{border-color:#9ad0ff;background:rgba(10,102,178,.08);margin-bottom:12px;display:none}
+.pager{display:flex;justify-content:center;margin-top:10px;flex-wrap:wrap;gap:6px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{position:fixed;inset:0 0 0 auto;width:min(280px,86vw);transform:translateX(100%);transition:.25s;box-shadow:var(--shadow);height:100vh;overflow:auto}.sidebar.open{transform:translateX(0)}.burger{display:inline-block}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><img src="logo.png" alt=""><div class="t">تدريبي</div></a>
+    <nav class="menu">
+      <a class="link active" href="index.html">لوحة التحكم</a>
+      <a class="link" href="users.html">إدارة المستخدمين</a>
+      <a class="link" href="providers.html" id="nav-providers">مزودو التدريب <span class="badge" id="badge-pending">0</span></a>
+      <a class="link" href="listings.html">قوائم التدريب</a>
+      <a class="link" href="applications.html">الطلبات</a>
+      <a class="link" href="index.html#announce" data-close>الإعلانات والإشعارات</a>
+      <a class="link" href="index.html#monitor" data-close>مراقبة النشاط</a>
+      <a class="link" href="index.html#reports" data-close>التقارير والتحليلات</a>
+      <a class="link" href="index.html#security" data-close>الأمان والنسخ الاحتياطي</a>
+      <a class="link" href="../login.html">خروج</a>
+    </nav>
+  </aside>
+  <div id="backdrop" class="backdrop"></div>
+
+  <main>
+    <header class="topbar">
+      <div class="right">
+        <button id="burger" class="burger" aria-label="القائمة">☰</button>
+        <strong>مرحبًا، <span id="admin-name">مشرف</span></strong>
+        <span class="small">دور: Admin</span>
+      </div>
+      <div class="right">
+        <button id="mode" class="mode">الوضع: تلقائي</button>
+        <a class="btn ghost" href="/">الصفحة الرئيسية</a>
+      </div>
+    </header>
+
+    <div class="container">
+      <div id="flash" class="card flash"></div>
+
+      <div class="card" style="margin-bottom:12px">
+        <form id="filterForm" class="flex" style="flex-wrap:wrap;gap:10px">
+          <input type="text" id="q" placeholder="بحث بالاسم/البريد/المدينة/الهاتف" style="flex:1;min-width:220px">
+          <select id="level"></select>
+          <select id="city"></select>
+          <select id="sort">
+            <option value="created_at_desc">الأحدث أولًا</option>
+            <option value="created_at_asc">الأقدم أولًا</option>
+            <option value="name_asc">الاسم (أ-ي)</option>
+            <option value="name_desc">الاسم (ي-أ)</option>
+          </select>
+          <button class="btn" type="submit">تصفية</button>
+          <button class="btn ghost" type="button" id="openCreate">+ مستخدم جديد</button>
+        </form>
+        <div class="small" style="margin-top:6px">النتائج: <span id="resultsCount">0</span> مستخدم</div>
+      </div>
+
+      <div class="card">
+        <table class="table" style="width:100%">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>البريد</th>
+              <th>الهاتف</th>
+              <th>المستوى</th>
+              <th>المدينة</th>
+              <th>التسجيل</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-users"></tbody>
+        </table>
+        <div id="pager" class="pager"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="modalWrap" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60">
+  <div id="modalBg" style="position:absolute;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px)"></div>
+  <div id="modalCard" class="card" style="position:relative;width:min(620px,94%);max-height:90vh;overflow:auto">
+    <div class="flex" style="justify-content:space-between;margin-bottom:8px">
+      <strong id="modalTitle">نموذج</strong>
+      <button id="closeModal" class="btn ghost" style="padding:6px 10px">إغلاق</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var m=localStorage.getItem('mode');var mb=document.getElementById('mode');
+  if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');mb.textContent='الوضع: ليلي'}
+  else if(m==='light'){document.documentElement.setAttribute('data-mode','light');mb.textContent='الوضع: نهاري'}
+  mb.addEventListener('click',function(){var html=document.documentElement,cur=html.getAttribute('data-mode');if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');this.textContent='الوضع: نهاري'}else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');this.textContent='الوضع: تلقائي'}else{html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');this.textContent='الوضع: ليلي'}});
+  var burger=document.getElementById('burger'),sidebar=document.getElementById('sidebar'),backdrop=document.getElementById('backdrop');
+  function openMenu(){sidebar.classList.add('open');backdrop.classList.add('show');document.body.style.overflow='hidden'}
+  function closeMenu(){sidebar.classList.remove('open');backdrop.classList.remove('show');document.body.style.overflow=''}
+  if(burger){burger.addEventListener('click',openMenu)} if(backdrop){backdrop.addEventListener('click',closeMenu)}
+})();
+</script>
+<script>
+var stateKey='tadribi_users_state_v1';
+function arDT(d){try{return new Date(d).toLocaleString('ar-SA',{hour12:false})}catch(e){return d}}
+function seed(){
+  return {
+    admin:{name:'مشرف'},
+    users:[
+      {id:1,name:'أحمد محمد',email:'ahmad@example.com',phone:'0501111111',level:'بكالوريوس',city:'جدة',created_at:new Date(Date.now()-864e5*1.2).toISOString(),password:'A@123456'},
+      {id:2,name:'سارة علي',email:'sara@example.com',phone:'0502222222',level:'طالب',city:'الرياض',created_at:new Date(Date.now()-864e5*4.5).toISOString(),password:'S@123456'},
+      {id:3,name:'خالد سالم',email:'khaled@example.com',phone:'0503333333',level:'ماجستير',city:'الدمام',created_at:new Date(Date.now()-864e5*2.1).toISOString(),password:'K@123456'},
+      {id:4,name:'ريم عبدالله',email:'reem@example.com',phone:'0504444444',level:'دبلوم',city:'مكة',created_at:new Date(Date.now()-864e5*0.6).toISOString(),password:'R@123456'},
+      {id:5,name:'يوسف ناصر',email:'yousef@example.com',phone:'0505555555',level:'خريج',city:'أبها',created_at:new Date(Date.now()-864e5*7.9).toISOString(),password:'Y@123456'},
+      {id:6,name:'هند صالح',email:'hind@example.com',phone:'0506666666',level:'طالب',city:'جازان',created_at:new Date(Date.now()-864e5*3.3).toISOString(),password:'H@123456'},
+      {id:7,name:'ليان أحمد',email:'lian@example.com',phone:'0507777777',level:'بكالوريوس',city:'الرياض',created_at:new Date(Date.now()-864e5*6.1).toISOString(),password:'L@123456'},
+      {id:8,name:'زياد فهد',email:'ziad@example.com',phone:'0508888888',level:'ماجستير',city:'جدة',created_at:new Date(Date.now()-864e5*10.2).toISOString(),password:'Z@123456'}
+    ],
+    ui:{q:'',level:'',city:'',sort:'created_at_desc',page:1,per:12}
+  }
+}
+function loadState(){try{var s=localStorage.getItem(stateKey);if(!s){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}return JSON.parse(s)}catch(e){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}}
+function saveState(s){localStorage.setItem(stateKey,JSON.stringify(s))}
+var S=loadState();
+
+function flash(msg,warn){var f=document.getElementById('flash');f.textContent=msg;f.style.display='block';f.style.borderColor=warn?'#ffb3b3':'#9ad0ff';f.style.background=warn?'#fff4f4':'rgba(10,102,178,.08)';setTimeout(()=>f.style.display='none',3000)}
+
+function distinctLevels(){var set=new Set();S.users.forEach(u=>{if(u.level) set.add(u.level)});var arr=[...set].sort((a,b)=>a.localeCompare(b,'ar'));arr.unshift('');var sel=document.getElementById('level');sel.innerHTML='';arr.forEach(function(lv){var o=document.createElement('option');o.value=lv;o.textContent=lv?lv:'كل المستويات';sel.appendChild(o)});sel.value=S.ui.level||''}
+function distinctCities(){var set=new Set();S.users.forEach(u=>{if(u.city) set.add(u.city)});var arr=[...set].sort((a,b)=>a.localeCompare(b,'ar'));arr.unshift('');var sel=document.getElementById('city');sel.innerHTML='';arr.forEach(function(ct){var o=document.createElement('option');o.value=ct;o.textContent=ct?ct:'كل المدن';sel.appendChild(o)});sel.value=S.ui.city||''}
+
+function currentFilters(){return{q:document.getElementById('q').value.trim(),level:document.getElementById('level').value,city:document.getElementById('city').value,sort:document.getElementById('sort').value,page:S.ui.page,per:S.ui.per}}
+
+function applyFilters(){var f=currentFilters();var rows=S.users.slice();if(f.q){var q=f.q.toLowerCase();rows=rows.filter(function(r){var blob=(r.name+' '+r.email+' '+(r.phone||'')+' '+(r.city||'')+' '+(r.level||'')).toLowerCase();return blob.indexOf(q)>-1})}if(f.level){rows=rows.filter(r=>r.level===f.level)}if(f.city){rows=rows.filter(r=>r.city===f.city)}var sorters={created_at_desc:(a,b)=>new Date(b.created_at)-new Date(a.created_at),created_at_asc:(a,b)=>new Date(a.created_at)-new Date(b.created_at),name_asc:(a,b)=>a.name.localeCompare(b.name,'ar'),name_desc:(a,b)=>b.name.localeCompare(a.name,'ar')};rows.sort(sorters[f.sort]||sorters.created_at_desc);document.getElementById('resultsCount').textContent=rows.length;var pages=Math.max(1,Math.ceil(rows.length/f.per));if(f.page>pages)f.page=pages;var off=(f.page-1)*f.per;renderTable(rows.slice(off,off+f.per));renderPager(pages,f.page);S.ui={q:f.q,level:f.level,city:f.city,sort:f.sort,page:f.page,per:f.per};saveState(S)}
+
+function renderTable(list){var body=document.getElementById('tbody-users');body.innerHTML='';if(list.length===0){var tr=document.createElement('tr');tr.innerHTML='<td colspan="7" class="small">لا توجد بيانات</td>';body.appendChild(tr);return}list.forEach(function(r){var tr=document.createElement('tr');tr.dataset.id=r.id;tr.dataset.name=r.name;tr.dataset.phone=r.phone||'';tr.dataset.level=r.level||'';tr.dataset.city=r.city||'';tr.dataset.email=r.email;tr.innerHTML='<td>'+r.name+'</td>'+'<td>'+r.email+'</td>'+'<td>'+(r.phone||'—')+'</td>'+'<td>'+(r.level||'—')+'</td>'+'<td>'+(r.city||'—')+'</td>'+'<td class="small">'+arDT(r.created_at)+'</td>'+'<td><div class="flex">'+'<button class="btn" style="padding:6px 10px" data-edit>تعديل</button>'+'<button class="btn ghost" style="padding:6px 10px" data-reset>تغيير كلمة المرور</button>'+'<button class="btn ghost" style="padding:6px 10px;border-color:#f4caca;color:#b11" data-del>حذف</button>'+'</div></td>';body.appendChild(tr)})}
+
+function renderPager(pages,cur){var p=document.getElementById('pager');p.innerHTML='';if(pages<=1)return;for(var i=1;i<=pages;i++){var b=document.createElement('button');b.className='btn '+(i===cur?'':'ghost');b.style.padding='6px 10px';b.textContent=String(i);b.addEventListener('click',function(e){S.ui.page=parseInt(e.target.textContent,10);applyFilters()});p.appendChild(b)}}
+
+function openModal(title,content){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=content;document.getElementById('modalWrap').style.display='flex';document.getElementById('modalBg').onclick=closeModal;document.getElementById('closeModal').onclick=closeModal}
+function closeModal(){document.getElementById('modalWrap').style.display='none';document.getElementById('modalBody').innerHTML=''}
+
+function emailExists(email,excludeId){email=email.trim().toLowerCase();return S.users.some(u=>u.email.toLowerCase()===email && u.id!==excludeId)}
+function validEmail(email){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+
+function openCreate(){var html='\
+  <form id="userForm" class="flex" style="flex-direction:column;gap:10px">\
+    <input name="name" placeholder="الاسم الكامل" required>\
+    <input type="email" name="email" placeholder="البريد الإلكتروني" required>\
+    <input name="phone" placeholder="الهاتف">\
+    <input name="level" placeholder="المستوى">\
+    <input name="city" placeholder="المدينة">\
+    <input type="password" name="password" placeholder="كلمة المرور" required>\
+    <div class="flex" style="justify-content:flex-end;gap:8px">\
+      <button type="button" class="btn ghost" id="cancelModal">إلغاء</button>\
+      <button class="btn" type="submit">حفظ</button>\
+    </div>\
+  </form>';
+  openModal('مستخدم جديد',html);
+  document.getElementById('cancelModal').onclick=closeModal;
+  document.getElementById('userForm').onsubmit=function(e){e.preventDefault();var f=e.target;var name=(f.name.value||'').trim();var email=(f.email.value||'').trim();var pass=f.password.value||'';if(!name||!email||!pass){flash('أكمل الحقول المطلوبة',true);return}if(!validEmail(email)){flash('بريد غير صالح',true);return}if(emailExists(email,0)){flash('البريد مستخدم مسبقًا',true);return}var id=Math.max(0,...S.users.map(x=>x.id))+1;var rec={id:id,name:name,email:email,phone:(f.phone.value||'').trim(),level:(f.level.value||'').trim(),city:(f.city.value||'').trim(),created_at:new Date().toISOString(),password:pass};S.users.push(rec);saveState(S);closeModal();flash('تم إنشاء المستخدم بنجاح');distinctLevels();distinctCities();applyFilters()}
+}
+
+function openEdit(tr){var id=parseInt(tr.dataset.id,10);var r=S.users.find(x=>x.id===id);if(!r)return;var html='\
+  <form id="userForm" class="flex" style="flex-direction:column;gap:10px">\
+    <input type="hidden" name="id" value="'+r.id+'">\
+    <input name="name" placeholder="الاسم الكامل" required value="'+r.name.replace(/"/g,'&quot;')+'">\
+    <input name="phone" placeholder="الهاتف" value="'+(r.phone||'').replace(/"/g,'&quot;')+'">\
+    <input name="level" placeholder="المستوى" value="'+(r.level||'').replace(/"/g,'&quot;')+'">\
+    <input name="city" placeholder="المدينة" value="'+(r.city||'').replace(/"/g,'&quot;')+'">\
+    <div class="flex" style="justify-content:flex-end;gap:8px">\
+      <button type="button" class="btn ghost" id="cancelModal">إلغاء</button>\
+      <button class="btn" type="submit">حفظ</button>\
+    </div>\
+  </form>';
+  openModal('تعديل البيانات',html);
+  document.getElementById('cancelModal').onclick=closeModal;
+  document.getElementById('userForm').onsubmit=function(e){e.preventDefault();var f=e.target;var name=(f.name.value||'').trim();if(!name){flash('بيانات غير مكتملة',true);return}r.name=name;r.phone=(f.phone.value||'').trim();r.level=(f.level.value||'').trim();r.city=(f.city.value||'').trim();saveState(S);closeModal();flash('تم تحديث البيانات');distinctLevels();distinctCities();applyFilters()}
+}
+
+function openReset(tr){var id=parseInt(tr.dataset.id,10);var r=S.users.find(x=>x.id===id);if(!r)return;var html='\
+  <form id="resetForm" class="flex" style="flex-direction:column;gap:10px">\
+    <input type="password" name="newpass" placeholder="كلمة مرور جديدة" required>\
+    <div class="flex" style="justify-content:flex-end;gap:8px">\
+      <button type="button" class="btn ghost" id="cancelModal">إلغاء</button>\
+      <button class="btn" type="submit">تحديث</button>\
+    </div>\
+  </form>';
+  openModal('تغيير كلمة المرور',html);
+  document.getElementById('cancelModal').onclick=closeModal;
+  document.getElementById('resetForm').onsubmit=function(e){e.preventDefault();var p=e.target.newpass.value||'';if(!p){flash('أدخل كلمة مرور',true);return}r.password=p;saveState(S);closeModal();flash('تم تعيين كلمة مرور جديدة')}
+}
+
+function delUser(id){if(!confirm('حذف المستخدم نهائيًا؟'))return;S.users=S.users.filter(x=>x.id!==id);saveState(S);flash('تم حذف المستخدم');distinctLevels();distinctCities();applyFilters()}
+
+function wireTableActions(){document.getElementById('tbody-users').addEventListener('click',function(e){var tr=e.target.closest('tr');if(!tr)return;if(e.target.hasAttribute('data-edit')){openEdit(tr)}if(e.target.hasAttribute('data-reset')){openReset(tr)}if(e.target.hasAttribute('data-del')){delUser(parseInt(tr.dataset.id,10))}})}
+
+function initFilters(){document.getElementById('q').value=S.ui.q||'';document.getElementById('sort').value=S.ui.sort||'created_at_desc';distinctLevels();distinctCities();document.getElementById('filterForm').addEventListener('submit',function(e){e.preventDefault();S.ui.page=1;applyFilters()})}
+
+function init(){document.getElementById('admin-name').textContent=S.admin.name||'مشرف';document.getElementById('openCreate').addEventListener('click',openCreate);initFilters();wireTableActions();applyFilters()}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>

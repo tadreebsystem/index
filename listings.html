@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>قوائم التدريب | تدريبي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--brand:#0a66b2;--brand-700:#084a85;--bg:#f5f8fc;--card:#ffffff;--line:#e6eef6;--text:#0d1b2a;--muted:#5d6f82;--shadow:0 12px 40px rgba(10,102,178,.12)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}}
+html[data-mode="dark"]{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,Arial}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--card);border-left:1px solid var(--line);position:sticky;top:0;height:100vh;padding:14px 12px;overflow:auto;z-index:40}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:8px}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand .t{font-weight:900;color:var(--brand);font-size:18px}
+.menu{display:flex;flex-direction:column;gap:6px}
+.link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:inherit;text-decoration:none}
+.link:hover,.link.active{background:rgba(10,102,178,.08)}
+.badge{margin-right:auto;background:rgba(10,102,178,.12);color:var(--brand);border-radius:999px;padding:2px 8px;font-size:12px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+@media(prefers-color-scheme:dark){.topbar{background:rgba(17,28,41,.65)}}
+.topbar .right{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:9px 14px;font-weight:800;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--line)}
+.container{padding:16px;max-width:1320px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:15px;color:var(--muted)}
+.table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.table th,.table td{padding:10px;background:var(--card);border:1px solid var(--line)}
+.table th{color:var(--muted);font-weight:700}
+.table td:first-child,.table th:first-child{border-radius:8px 0 0 8px}
+.table td:last-child,.table th:last-child{border-radius:0 8px 8px 0}
+.small{font-size:12px;color:var(--muted)}
+.flex{display:flex;gap:8px;align-items:center}
+input,select,textarea{border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text);padding:10px}
+.mode{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.burger{display:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:30;opacity:0;visibility:hidden;transition:.25s}
+.backdrop.show{opacity:1;visibility:visible}
+.flash{border-color:#9ad0ff;background:rgba(10,102,178,.08);margin-bottom:12px;display:none}
+.editor{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;padding:8px;border-bottom:1px solid var(--line);background:linear-gradient(0deg,rgba(10,102,178,.06),transparent)}
+.tool{border:1px solid var(--line);background:var(--card);padding:6px 10px;border-radius:8px;cursor:pointer}
+.tool[aria-pressed="true"]{outline:2px solid var(--brand)}
+.editable{min-height:110px;padding:10px}
+.pager{display:flex;justify-content:center;margin-top:10px;flex-wrap:wrap;gap:6px}
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:fixed;inset:0 0 0 auto;width:min(280px,86vw);transform:translateX(100%);transition:.25s;box-shadow:var(--shadow);height:100vh;overflow:auto}
+  .sidebar.open{transform:translateX(0)}
+  .burger{display:inline-block}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><img src="logo.png" alt=""><div class="t">تدريبي</div></a>
+    <nav class="menu">
+      <a class="link active" href="index.html">لوحة التحكم</a>
+      <a class="link" href="users.html">إدارة المستخدمين</a>
+      <a class="link" href="providers.html" id="nav-providers">مزودو التدريب <span class="badge" id="badge-pending">0</span></a>
+      <a class="link" href="listings.html">قوائم التدريب</a>
+      <a class="link" href="applications.html">الطلبات</a>
+      <a class="link" href="index.html#announce" data-close>الإعلانات والإشعارات</a>
+      <a class="link" href="index.html#monitor" data-close>مراقبة النشاط</a>
+      <a class="link" href="index.html#reports" data-close>التقارير والتحليلات</a>
+      <a class="link" href="index.html#security" data-close>الأمان والنسخ الاحتياطي</a>
+      <a class="link" href="../login.html">خروج</a>
+    </nav>
+  </aside>
+
+  <div id="backdrop" class="backdrop"></div>
+
+  <main>
+    <header class="topbar">
+      <div class="right">
+        <button id="burger" class="burger" aria-label="القائمة">☰</button>
+        <strong>مرحبًا، <span id="admin-name">مشرف</span></strong>
+        <span class="small">دور: Admin</span>
+      </div>
+      <div class="right">
+        <button id="mode" class="mode">الوضع: تلقائي</button>
+        <a class="btn ghost" href="/">الصفحة الرئيسية</a>
+      </div>
+    </header>
+
+    <div class="container">
+      <div id="flash" class="card flash"></div>
+
+      <div class="card" style="margin-bottom:12px">
+        <form id="filterForm" class="flex" style="flex-wrap:wrap;gap:10px">
+          <input type="text" id="q" placeholder="بحث بالعنوان/الموقع/المنشأة/الوصف" style="flex:1;min-width:260px">
+          <select id="provider"></select>
+          <select id="deadline">
+            <option value="">كل المواعيد</option>
+            <option value="upcoming">مواعيد قادمة/غير محددة</option>
+            <option value="past">منتهية</option>
+          </select>
+          <select id="sort">
+            <option value="created_at_desc">الأحدث أولًا</option>
+            <option value="created_at_asc">الأقدم أولًا</option>
+            <option value="title_asc">العنوان (أ-ي)</option>
+            <option value="title_desc">العنوان (ي-أ)</option>
+            <option value="deadline_asc">الأقرب للموعد</option>
+            <option value="deadline_desc">الأبعد للموعد</option>
+          </select>
+          <button class="btn" type="submit">تصفية</button>
+          <button class="btn ghost" type="button" id="openCreate">+ فرصة جديدة</button>
+        </form>
+        <div class="small" style="margin-top:6px">النتائج: <span id="resultsCount">0</span> فرصة</div>
+      </div>
+
+      <div class="card">
+        <table class="table" style="width:100%">
+          <thead>
+            <tr>
+              <th>العنوان</th>
+              <th>المنشأة</th>
+              <th>الموقع</th>
+              <th>المدة</th>
+              <th>الموعد النهائي</th>
+              <th>طلبات</th>
+              <th>التسجيل</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-listings"></tbody>
+        </table>
+        <div id="pager" class="pager"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="modalWrap" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60">
+  <div id="modalBg" style="position:absolute;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px)"></div>
+  <div id="modalCard" class="card" style="position:relative;width:min(860px,96%);max-height:92vh;overflow:auto">
+    <div class="flex" style="justify-content:space-between;margin-bottom:8px">
+      <strong id="modalTitle">نموذج</strong>
+      <button id="closeModal" class="btn ghost" type="button" style="padding:6px 10px">إغلاق</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var m=localStorage.getItem('mode');var mb=document.getElementById('mode');
+  if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');mb.textContent='الوضع: ليلي';}
+  else if(m==='light'){document.documentElement.setAttribute('data-mode','light');mb.textContent='الوضع: نهاري';}
+  mb.addEventListener('click',function(){
+    var html=document.documentElement,cur=html.getAttribute('data-mode');
+    if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');this.textContent='الوضع: نهاري';}
+    else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');this.textContent='الوضع: تلقائي';}
+    else {html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');this.textContent='الوضع: ليلي';}
+  });
+  var burger=document.getElementById('burger'),sidebar=document.getElementById('sidebar'),backdrop=document.getElementById('backdrop');
+  function openMenu(){sidebar.classList.add('open');backdrop.classList.add('show');document.body.style.overflow='hidden';}
+  function closeMenu(){sidebar.classList.remove('open');backdrop.classList.remove('show');document.body.style.overflow='';}
+  if(burger){burger.addEventListener('click',openMenu);} if(backdrop){backdrop.addEventListener('click',closeMenu);}
+})();
+</script>
+<script>
+var stateKey='tadribi_listings_state_v1';
+function arDT(d){try{return new Date(d).toLocaleString('ar-SA',{hour12:false})}catch(e){return d}}
+function dtInputValue(iso){if(!iso)return'';var d=new Date(iso);if(isNaN(d))return'';var z=d.toISOString();return z.slice(0,16)}
+function seed(){
+  return {
+    admin:{name:'مشرف'},
+    providers:[
+      {id:101,company_name:'شركة آفاق للتدريب',status:'approved'},
+      {id:102,company_name:'أكاديمية خبرات',status:'approved'},
+      {id:103,company_name:'مركز تمكين',status:'pending'},
+      {id:104,company_name:'معهد الريادة',status:'rejected'},
+      {id:105,company_name:'منشأة نبراس',status:'approved'},
+      {id:106,company_name:'قدرات للتطوير',status:'approved'}
+    ],
+    listings:[
+      {id:201,provider_id:101,title:'تدريب تسويق رقمي',location:'الرياض',duration:'3 أشهر',application_deadline:new Date(Date.now()+864e5*15).toISOString(),created_at:new Date(Date.now()-864e5*9).toISOString(),description:'<p>مهام في إدارة الحملات الإعلانية وتحسين محركات البحث.</p>',eligibility:'<ul><li>خريج/ـة تسويق</li><li>إلمام بGoogle Ads</li></ul>'},
+      {id:202,provider_id:102,title:'محاسبة شركات صغيرة',location:'جدة',duration:'8 أسابيع',application_deadline:null,created_at:new Date(Date.now()-864e5*6).toISOString(),description:'<p>مسك دفاتر وإعداد تقارير مبسطة.</p>',eligibility:'<p>إجادة Excel</p>'},
+      {id:203,provider_id:105,title:'مصمم واجهات UI',location:'عن بُعد',duration:'10 أسابيع',application_deadline:new Date(Date.now()+864e5*3).toISOString(),created_at:new Date(Date.now()-864e5*3.5).toISOString(),description:'<p>تصميم شاشات تطبيقات وب.</p>',eligibility:'<p>محفظة أعمال</p>'},
+      {id:204,provider_id:106,title:'تحليل بيانات أولي',location:'الدمام',duration:'6 أسابيع',application_deadline:new Date(Date.now()-864e5*2).toISOString(),created_at:new Date(Date.now()-864e5*12).toISOString(),description:'<p>لوحات Power BI.</p>',eligibility:'<p>SQL أساسي</p>'}
+    ],
+    applications:[
+      {id:301,listing_id:201},{id:302,listing_id:201},{id:303,listing_id:203},{id:304,listing_id:204},{id:305,listing_id:204}
+    ],
+    ui:{q:'',provider:0,deadline:'',sort:'created_at_desc',page:1,per:12}
+  }
+}
+function loadState(){try{var s=localStorage.getItem(stateKey);if(!s){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}return JSON.parse(s)}catch(e){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}}
+function saveState(s){localStorage.setItem(stateKey,JSON.stringify(s))}
+var S=loadState();
+
+function providerName(id){var p=S.providers.find(x=>x.id===id);return p?p.company_name:'—'}
+function appsCount(listingId){return S.applications.filter(a=>a.listing_id===listingId).length}
+function flash(msg){var f=document.getElementById('flash');f.textContent=msg;f.style.display='block';setTimeout(()=>f.style.display='none',3000)}
+
+function buildProviderSelect(){
+  var sel=document.getElementById('provider');
+  sel.innerHTML='';
+  var opt=document.createElement('option');opt.value='0';opt.textContent='كل المزودين';sel.appendChild(opt);
+  S.providers.filter(p=>p.status==='approved').sort((a,b)=>a.company_name.localeCompare(b.company_name,'ar')).forEach(function(p){
+    var o=document.createElement('option');o.value=String(p.id);o.textContent=p.company_name;sel.appendChild(o);
+  });
+  sel.value=String(S.ui.provider||0);
+}
+
+function currentFilters(){
+  return { q:document.getElementById('q').value.trim(), provider:parseInt(document.getElementById('provider').value||'0',10), deadline:document.getElementById('deadline').value, sort:document.getElementById('sort').value, page:S.ui.page, per:S.ui.per }
+}
+
+function applyFilters(){
+  var f=currentFilters();
+  var rows=S.listings.slice();
+  if(f.q){
+    var q=f.q.toLowerCase();
+    rows=rows.filter(function(r){
+      var pn=providerName(r.provider_id).toLowerCase();
+      var blob=(r.title+' '+r.location+' '+r.duration+' '+pn+' '+(r.description||'')+' '+(r.eligibility||'')).toLowerCase();
+      return blob.indexOf(q)>-1;
+    });
+  }
+  if(f.provider>0){ rows=rows.filter(r=>r.provider_id===f.provider); }
+  if(f.deadline==='upcoming'){ rows=rows.filter(r=>!r.application_deadline || new Date(r.application_deadline)>=new Date()); }
+  if(f.deadline==='past'){ rows=rows.filter(r=>r.application_deadline && new Date(r.application_deadline)<new Date()); }
+  var sorters={
+    created_at_desc:(a,b)=>new Date(b.created_at)-new Date(a.created_at),
+    created_at_asc:(a,b)=>new Date(a.created_at)-new Date(b.created_at),
+    title_asc:(a,b)=>a.title.localeCompare(b.title,'ar'),
+    title_desc:(a,b)=>b.title.localeCompare(a.title,'ar'),
+    deadline_asc:(a,b)=>{var na=!a.application_deadline, nb=!b.application_deadline; if(na&&!nb)return 1; if(nb&&!na)return -1; if(na&&nb)return 0; return new Date(a.application_deadline)-new Date(b.application_deadline)},
+    deadline_desc:(a,b)=>{var na=!a.application_deadline, nb=!b.application_deadline; if(na&&!nb)return 1; if(nb&&!na)return -1; if(na&&nb)return 0; return new Date(b.application_deadline)-new Date(a.application_deadline)}
+  };
+  rows.sort(sorters[f.sort]||sorters.created_at_desc);
+  document.getElementById('resultsCount').textContent=rows.length;
+  var pages=Math.max(1,Math.ceil(rows.length/f.per));
+  if(f.page>pages) f.page=pages;
+  var off=(f.page-1)*f.per;
+  var pageRows=rows.slice(off,off+f.per);
+  renderTable(pageRows);
+  renderPager(pages,f.page);
+  S.ui={q:f.q,provider:f.provider,deadline:f.deadline,sort:f.sort,page:f.page,per:f.per};
+  saveState(S);
+}
+
+function renderTable(list){
+  var body=document.getElementById('tbody-listings');
+  body.innerHTML='';
+  if(list.length===0){
+    var tr=document.createElement('tr'); tr.innerHTML='<td colspan="8" class="small">لا توجد بيانات</td>'; body.appendChild(tr); return;
+  }
+  list.forEach(function(r){
+    var tr=document.createElement('tr');
+    var deadline=r.application_deadline?arDT(r.application_deadline):'—';
+    tr.innerHTML='<td>'+r.title+'</td>'+
+                 '<td>'+providerName(r.provider_id)+'</td>'+
+                 '<td>'+r.location+'</td>'+
+                 '<td>'+r.duration+'</td>'+
+                 '<td class="small">'+deadline+'</td>'+
+                 '<td>'+appsCount(r.id)+'</td>'+
+                 '<td class="small">'+arDT(r.created_at)+'</td>'+
+                 '<td><div class="flex">'+
+                   '<button class="btn" style="padding:6px 10px" data-edit="'+r.id+'">تعديل</button>'+
+                   '<button class="btn ghost" style="padding:6px 10px;border-color:#f4caca;color:#b11" data-del="'+r.id+'">حذف</button>'+
+                 '</div></td>';
+    body.appendChild(tr);
+  });
+}
+
+function renderPager(pages,cur){
+  var p=document.getElementById('pager');
+  p.innerHTML='';
+  if(pages<=1)return;
+  for(var i=1;i<=pages;i++){
+    var a=document.createElement('button');
+    a.className='btn '+(i===cur?'':'ghost');
+    a.style.padding='6px 10px';
+    a.textContent=String(i);
+    a.addEventListener('click',function(e){S.ui.page=parseInt(e.target.textContent,10);applyFilters()});
+    p.appendChild(a);
+  }
+}
+
+function openModal(title,content){
+  document.getElementById('modalTitle').textContent=title;
+  var body=document.getElementById('modalBody');
+  body.innerHTML=content;
+  document.getElementById('modalWrap').style.display='flex';
+  document.getElementById('modalBg').onclick=closeModal;
+  document.getElementById('closeModal').onclick=closeModal;
+}
+function closeModal(){document.getElementById('modalWrap').style.display='none';document.getElementById('modalBody').innerHTML=''}
+
+function buildProviderOptions(selected){
+  var opts='<option value="">اختر منشأة</option>';
+  S.providers.filter(p=>p.status==='approved').sort((a,b)=>a.company_name.localeCompare(b.company_name,'ar')).forEach(function(p){
+    var sel=(selected&&Number(selected)===p.id)?' selected':'';
+    opts+='<option value="'+p.id+'"'+sel+'>'+p.company_name+'</option>';
+  });
+  return opts;
+}
+
+var activeEditable=null;
+function wireEditorTools(scope){
+  scope.querySelectorAll('.tool[data-cmd]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var cmd=this.dataset.cmd; document.execCommand(cmd,false,null); this.setAttribute('aria-pressed','true'); setTimeout(()=>this.removeAttribute('aria-pressed'),120);
+    });
+  });
+  scope.querySelector('[data-link]').addEventListener('click',function(){ var url=prompt('أدخل الرابط:','https://'); if(url){document.execCommand('createLink',false,url)} });
+  scope.querySelector('[data-clear]').addEventListener('click',function(){ document.execCommand('removeFormat'); var ed=scope.querySelector('.editable:focus')||activeEditable; if(ed){ed.querySelectorAll('a').forEach(function(a){var t=a.textContent;a.replaceWith(document.createTextNode(t))});} });
+  scope.querySelectorAll('.editable').forEach(function(ed){ ed.addEventListener('focus',function(){activeEditable=ed}) });
+}
+
+function openCreate(){
+  var html='\
+  <form id="listingForm" class="flex" style="flex-direction:column;gap:10px">\
+    <select name="provider_id" required>'+buildProviderOptions()+'</select>\
+    <input name="title" placeholder="العنوان" required>\
+    <div class="flex" style="gap:8px;flex-wrap:wrap">\
+      <input name="location" placeholder="الموقع" style="flex:1;min-width:180px">\
+      <input name="duration" placeholder="المدة" style="flex:1;min-width:140px">\
+      <input type="datetime-local" name="application_deadline" style="flex:1;min-width:220px">\
+    </div>\
+    <div>\
+      <div class="small" style="margin-bottom:6px">الوصف</div>\
+      <div class="editor">\
+        <div class="toolbar">\
+          <button class="tool" type="button" data-cmd="bold"><b>عريض</b></button>\
+          <button class="tool" type="button" data-cmd="italic"><i>مائل</i></button>\
+          <button class="tool" type="button" data-cmd="underline"><u>تحته خط</u></button>\
+          <button class="tool" type="button" data-cmd="insertUnorderedList">• نقاط</button>\
+          <button class="tool" type="button" data-cmd="insertOrderedList">1. أرقام</button>\
+          <button class="tool" type="button" data-link>رابط</button>\
+          <button class="tool" type="button" data-clear>مسح</button>\
+        </div>\
+        <div class="editable" contenteditable="true" name="description" dir="rtl"></div>\
+      </div>\
+    </div>\
+    <div>\
+      <div class="small" style="margin-bottom:6px">شروط الأهلية</div>\
+      <div class="editor">\
+        <div class="toolbar">\
+          <button class="tool" type="button" data-cmd="bold"><b>عريض</b></button>\
+          <button class="tool" type="button" data-cmd="italic"><i>مائل</i></button>\
+          <button class="tool" type="button" data-cmd="underline"><u>تحته خط</u></button>\
+          <button class="tool" type="button" data-cmd="insertUnorderedList">• نقاط</button>\
+          <button class="tool" type="button" data-cmd="insertOrderedList">1. أرقام</button>\
+          <button class="tool" type="button" data-link>رابط</button>\
+          <button class="tool" type="button" data-clear>مسح</button>\
+        </div>\
+        <div class="editable" contenteditable="true" name="eligibility" dir="rtl"></div>\
+      </div>\
+    </div>\
+    <div class="flex" style="justify-content:flex-end;gap:8px">\
+      <button type="button" class="btn ghost" id="cancelModal">إلغاء</button>\
+      <button class="btn" type="submit">حفظ</button>\
+    </div>\
+  </form>';
+  openModal('فرصة جديدة',html);
+  wireEditorTools(document.getElementById('modalBody'));
+  document.getElementById('cancelModal').onclick=closeModal;
+  document.getElementById('listingForm').onsubmit=function(e){e.preventDefault();
+    var f=e.target;
+    var pid=parseInt(f.provider_id.value||'0',10);
+    var title=(f.title.value||'').trim();
+    if(!(pid>0 && title)){flash('أكمل الحقول المطلوبة');return}
+    var loc=f.location.value||''; var dur=f.duration.value||''; var ddl=f.application_deadline.value||''; ddl=ddl?new Date(ddl).toISOString():null;
+    var desc=f.querySelector('[name="description"]').innerHTML.trim();
+    var elig=f.querySelector('[name="eligibility"]').innerHTML.trim();
+    var id=Math.max(0,...S.listings.map(x=>x.id))+1;
+    S.listings.push({id:id,provider_id:pid,title:title,location:loc,duration:dur,application_deadline:ddl,created_at:new Date().toISOString(),description:desc,eligibility:elig});
+    saveState(S); closeModal(); flash('تم إنشاء فرصة تدريبية'); applyFilters();
+  };
+}
+
+function openEdit(id){
+  var r=S.listings.find(x=>x.id===id); if(!r)return;
+  var html='\
+  <form id="listingForm" class="flex" style="flex-direction:column;gap:10px">\
+    <input type="hidden" name="id" value="'+r.id+'">\
+    <select name="provider_id" required>'+buildProviderOptions(r.provider_id)+'</select>\
+    <input name="title" placeholder="العنوان" required value="'+r.title.replace(/"/g,'&quot;')+'">\
+    <div class="flex" style="gap:8px;flex-wrap:wrap">\
+      <input name="location" placeholder="الموقع" value="'+(r.location||'').replace(/"/g,'&quot;')+'" style="flex:1;min-width:180px">\
+      <input name="duration" placeholder="المدة" value="'+(r.duration||'').replace(/"/g,'&quot;')+'" style="flex:1;min-width:140px">\
+      <input type="datetime-local" name="application_deadline" value="'+dtInputValue(r.application_deadline)+'" style="flex:1;min-width:220px">\
+    </div>\
+    <div>\
+      <div class="small" style="margin-bottom:6px">الوصف</div>\
+      <div class="editor">\
+        <div class="toolbar">\
+          <button class="tool" type="button" data-cmd="bold"><b>عريض</b></button>\
+          <button class="tool" type="button" data-cmd="italic"><i>مائل</i></button>\
+          <button class="tool" type="button" data-cmd="underline"><u>تحته خط</u></button>\
+          <button class="tool" type="button" data-cmd="insertUnorderedList">• نقاط</button>\
+          <button class="tool" type="button" data-cmd="insertOrderedList">1. أرقام</button>\
+          <button class="tool" type="button" data-link>رابط</button>\
+          <button class="tool" type="button" data-clear>مسح</button>\
+        </div>\
+        <div class="editable" contenteditable="true" name="description" dir="rtl">'+(r.description||'')+'</div>\
+      </div>\
+    </div>\
+    <div>\
+      <div class="small" style="margin-bottom:6px">شروط الأهلية</div>\
+      <div class="editor">\
+        <div class="toolbar">\
+          <button class="tool" type="button" data-cmd="bold"><b>عريض</b></button>\
+          <button class="tool" type="button" data-cmd="italic"><i>مائل</i></button>\
+          <button class="tool" type="button" data-cmd="underline"><u>تحته خط</u></button>\
+          <button class="tool" type="button" data-cmd="insertUnorderedList">• نقاط</button>\
+          <button class="tool" type="button" data-cmd="insertOrderedList">1. أرقام</button>\
+          <button class="tool" type="button" data-link>رابط</button>\
+          <button class="tool" type="button" data-clear>مسح</button>\
+        </div>\
+        <div class="editable" contenteditable="true" name="eligibility" dir="rtl">'+(r.eligibility||'')+'</div>\
+      </div>\
+    </div>\
+    <div class="flex" style="justify-content:flex-end;gap:8px">\
+      <button type="button" class="btn ghost" id="cancelModal">إلغاء</button>\
+      <button class="btn" type="submit">حفظ</button>\
+    </div>\
+  </form>';
+  openModal('تعديل فرصة تدريبية',html);
+  wireEditorTools(document.getElementById('modalBody'));
+  document.getElementById('cancelModal').onclick=closeModal;
+  document.getElementById('listingForm').onsubmit=function(e){e.preventDefault();
+    var f=e.target; var id=parseInt(f.id.value,10);
+    var rec=S.listings.find(x=>x.id===id); if(!rec)return;
+    var pid=parseInt(f.provider_id.value||'0',10); var title=(f.title.value||'').trim();
+    if(!(pid>0 && title)){flash('بيانات غير مكتملة');return}
+    rec.provider_id=pid; rec.title=title; rec.location=f.location.value||''; rec.duration=f.duration.value||'';
+    var ddl=f.application_deadline.value||''; rec.application_deadline=ddl?new Date(ddl).toISOString():null;
+    rec.description=f.querySelector('[name="description"]').innerHTML.trim();
+    rec.eligibility=f.querySelector('[name="eligibility"]').innerHTML.trim();
+    saveState(S); closeModal(); flash('تم تحديث بيانات الفرصة'); applyFilters();
+  };
+}
+
+function onDelete(id){
+  if(!confirm('حذف الفرصة نهائيًا؟'))return;
+  S.listings=S.listings.filter(x=>x.id!==id);
+  S.applications=S.applications.filter(a=>a.listing_id!==id);
+  saveState(S); flash('تم حذف الفرصة'); applyFilters();
+}
+
+function wireTableActions(){
+  document.getElementById('tbody-listings').addEventListener('click',function(e){
+    var editId=e.target.getAttribute('data-edit');
+    var delId=e.target.getAttribute('data-del');
+    if(editId){openEdit(parseInt(editId,10))}
+    if(delId){onDelete(parseInt(delId,10))}
+  });
+}
+
+function initFilters(){
+  document.getElementById('q').value=S.ui.q||'';
+  document.getElementById('deadline').value=S.ui.deadline||'';
+  document.getElementById('sort').value=S.ui.sort||'created_at_desc';
+  buildProviderSelect();
+  document.getElementById('filterForm').addEventListener('submit',function(e){e.preventDefault();S.ui.page=1;applyFilters()});
+}
+
+function init(){
+  document.getElementById('admin-name').textContent=S.admin.name||'مشرف';
+  initFilters();
+  wireTableActions();
+  document.getElementById('openCreate').addEventListener('click',openCreate);
+  applyFilters();
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>

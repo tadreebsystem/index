@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إدارة الطلبات | تدريبي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--brand:#0a66b2;--brand-700:#084a85;--bg:#f5f8fc;--card:#ffffff;--line:#e6eef6;--text:#0d1b2a;--muted:#5d6f82;--shadow:0 12px 40px rgba(10,102,178,.12)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}}
+html[data-mode="dark"]{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,Arial}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--card);border-left:1px solid var(--line);position:sticky;top:0;height:100vh;padding:14px 12px;overflow:auto;z-index:40}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:8px}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand .t{font-weight:900;color:var(--brand);font-size:18px}
+.menu{display:flex;flex-direction:column;gap:6px}
+.link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:inherit;text-decoration:none}
+.link:hover,.link.active{background:rgba(10,102,178,.08)}
+.badge{margin-right:auto;background:rgba(10,102,178,.12);color:var(--brand);border-radius:999px;padding:2px 8px;font-size:12px}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+@media(prefers-color-scheme:dark){.topbar{background:rgba(17,28,41,.65)}}
+.topbar .right{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:9px 14px;font-weight:800;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--line)}
+.container{padding:16px;max-width:1320px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:15px;color:var(--muted)}
+.kpi{display:flex;align-items:baseline;gap:6px}
+.kpi .n{font-size:26px;font-weight:900;color:var(--brand)}
+.table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.table th,.table td{padding:10px;background:var(--card);border:1px solid var(--line)}
+.table th{color:var(--muted);font-weight:700}
+.table td:first-child,.table th:first-child{border-radius:8px 0 0 8px}
+.table td:last-child,.table th:last-child{border-radius:0 8px 8px 0}
+.small{font-size:12px;color:var(--muted)}
+.flex{display:flex;gap:8px;align-items:center}
+input,select,textarea{border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text);padding:10px}
+.mode{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.burger{display:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:30;opacity:0;visibility:hidden;transition:.25s}
+.backdrop.show{opacity:1;visibility:visible}
+.flash{border-color:#9ad0ff;background:rgba(10,102,178,.08);margin-bottom:12px;display:none}
+.pager{display:flex;justify-content:center;margin-top:10px;flex-wrap:wrap;gap:6px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{position:fixed;inset:0 0 0 auto;width:min(280px,86vw);transform:translateX(100%);transition:.25s;box-shadow:var(--shadow);height:100vh;overflow:auto}.sidebar.open{transform:translateX(0)}.burger{display:inline-block}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><img src="logo.png" alt=""><div class="t">تدريبي</div></a>
+    <nav class="menu">
+      <a class="link active" href="index.html">لوحة التحكم</a>
+      <a class="link" href="users.html">إدارة المستخدمين</a>
+      <a class="link" href="providers.html" id="nav-providers">مزودو التدريب <span class="badge" id="badge-pending">0</span></a>
+      <a class="link" href="listings.html">قوائم التدريب</a>
+      <a class="link" href="applications.html">الطلبات</a>
+      <a class="link" href="index.html#announce" data-close>الإعلانات والإشعارات</a>
+      <a class="link" href="index.html#monitor" data-close>مراقبة النشاط</a>
+      <a class="link" href="index.html#reports" data-close>التقارير والتحليلات</a>
+      <a class="link" href="index.html#security" data-close>الأمان والنسخ الاحتياطي</a>
+      <a class="link" href="../login.html">خروج</a>
+    </nav>
+  </aside>
+
+  <div id="backdrop" class="backdrop"></div>
+
+  <main>
+    <header class="topbar">
+      <div class="right">
+        <button id="burger" class="burger" aria-label="القائمة">☰</button>
+        <strong>مرحبًا، <span id="admin-name">مشرف</span></strong>
+        <span class="small">دور: Admin</span>
+      </div>
+      <div class="right">
+        <button id="mode" class="mode">الوضع: تلقائي</button>
+        <a class="btn ghost" href="/">الصفحة الرئيسية</a>
+      </div>
+    </header>
+
+    <div class="container">
+      <div id="flash" class="card flash"></div>
+
+      <div class="grid" style="margin-bottom:12px">
+        <div class="card"><h3>إجمالي الطلبات</h3><div class="kpi"><div class="n" id="kpi-total">0</div></div></div>
+        <div class="card"><h3>قيد المراجعة</h3><div class="kpi"><div class="n" id="kpi-pending">0</div></div></div>
+        <div class="card"><h3>شوهدت</h3><div class="kpi"><div class="n" id="kpi-viewed">0</div></div></div>
+        <div class="card"><h3>مقبولة / مرفوضة</h3><div class="kpi"><div class="n"><span id="kpi-accepted">0</span> / <span id="kpi-rejected">0</span></div></div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <form id="filterForm" class="flex" style="flex-wrap:wrap;gap:10px">
+          <input type="text" id="q" placeholder="بحث بالاسم/البريد/المنشأة/العنوان" style="flex:1;min-width:260px">
+          <select id="status">
+            <option value="">كل الحالات</option>
+            <option value="pending">قيد المراجعة</option>
+            <option value="viewed">شوهد</option>
+            <option value="accepted">مقبول</option>
+            <option value="rejected">مرفوض</option>
+          </select>
+          <select id="provider"><option value="0">كل المزودين</option></select>
+          <select id="listing" style="min-width:220px"><option value="0">كل الفرص</option></select>
+          <select id="sort">
+            <option value="applied_desc">الأحدث تقديمًا</option>
+            <option value="applied_asc">الأقدم تقديمًا</option>
+            <option value="user_asc">اسم المتقدم (أ-ي)</option>
+            <option value="user_desc">اسم المتقدم (ي-أ)</option>
+            <option value="provider_asc">المنشأة (أ-ي)</option>
+            <option value="provider_desc">المنشأة (ي-أ)</option>
+            <option value="listing_asc">الفرصة (أ-ي)</option>
+            <option value="listing_desc">الفرصة (ي-أ)</option>
+            <option value="status_asc">الحالة (تصاعدي)</option>
+            <option value="status_desc">الحالة (تنازلي)</option>
+          </select>
+          <button class="btn" type="submit">تصفية</button>
+        </form>
+        <div class="small" style="margin-top:6px">النتائج: <span id="resultsCount">0</span> طلب</div>
+      </div>
+
+      <div class="card">
+        <table class="table" style="width:100%">
+          <thead>
+            <tr>
+              <th>المتقدم</th>
+              <th>البريد</th>
+              <th>الفرصة</th>
+              <th>المنشأة</th>
+              <th>الحالة</th>
+              <th>تاريخ التقديم</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-apps"></tbody>
+        </table>
+        <div id="pager" class="pager"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<div id="modalWrap" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:60">
+  <div id="modalBg" style="position:absolute;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px)"></div>
+  <div id="modalCard" class="card" style="position:relative;width:min(860px,96%);max-height:92vh;overflow:auto">
+    <div class="flex" style="justify-content:space-between;margin-bottom:8px">
+      <strong id="modalTitle">تفاصيل الطلب</strong>
+      <button id="closeModal" class="btn ghost" type="button" style="padding:6px 10px">إغلاق</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var m=localStorage.getItem('mode');var mb=document.getElementById('mode');
+  if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');mb.textContent='الوضع: ليلي'}
+  else if(m==='light'){document.documentElement.setAttribute('data-mode','light');mb.textContent='الوضع: نهاري'}
+  mb.addEventListener('click',function(){var html=document.documentElement,cur=html.getAttribute('data-mode');if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');this.textContent='الوضع: نهاري'}else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');this.textContent='الوضع: تلقائي'}else{html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');this.textContent='الوضع: ليلي'}});
+  var burger=document.getElementById('burger'),sidebar=document.getElementById('sidebar'),backdrop=document.getElementById('backdrop');
+  function openMenu(){sidebar.classList.add('open');backdrop.classList.add('show');document.body.style.overflow='hidden'}
+  function closeMenu(){sidebar.classList.remove('open');backdrop.classList.remove('show');document.body.style.overflow=''}
+  if(burger){burger.addEventListener('click',openMenu)} if(backdrop){backdrop.addEventListener('click',closeMenu)}
+})();
+</script>
+<script>
+var stateKey='tadribi_apps_state_v1';
+function arDT(d){try{return new Date(d).toLocaleString('ar-SA',{hour12:false})}catch(e){return d}}
+function seed(){
+  return {
+    admin:{name:'مشرف'},
+    providers:[
+      {id:101,company_name:'شركة آفاق للتدريب'},
+      {id:102,company_name:'أكاديمية خبرات'},
+      {id:105,company_name:'منشأة نبراس'},
+      {id:106,company_name:'قدرات للتطوير'}
+    ],
+    listings:[
+      {id:201,provider_id:101,title:'تدريب تسويق رقمي',location:'الرياض',duration:'3 أشهر',application_deadline:new Date(Date.now()+864e5*10).toISOString()},
+      {id:202,provider_id:102,title:'محاسبة شركات صغيرة',location:'جدة',duration:'8 أسابيع',application_deadline:null},
+      {id:203,provider_id:105,title:'مصمم واجهات UI',location:'عن بُعد',duration:'10 أسابيع',application_deadline:new Date(Date.now()+864e5*3).toISOString()},
+      {id:204,provider_id:106,title:'تحليل بيانات أولي',location:'الدمام',duration:'6 أسابيع',application_deadline:new Date(Date.now()-864e5*1).toISOString()}
+    ],
+    users:[
+      {id:1,name:'أحمد محمد',email:'ahmad@example.com',phone:'0501111111',city:'جدة',level:'بكالوريوس'},
+      {id:2,name:'سارة علي',email:'sara@example.com',phone:'0502222222',city:'الرياض',level:'طالب'},
+      {id:3,name:'خالد سالم',email:'khaled@example.com',phone:'0503333333',city:'الدمام',level:'ماجستير'},
+      {id:4,name:'ريم عبدالله',email:'reem@example.com',phone:'0504444444',city:'مكة',level:'دبلوم'}
+    ],
+    applications:[
+      {id:301,user_id:1,listing_id:201,status:'pending',applied_at:new Date(Date.now()-864e5*0.3).toISOString()},
+      {id:302,user_id:2,listing_id:201,status:'accepted',applied_at:new Date(Date.now()-864e5*1.5).toISOString()},
+      {id:303,user_id:3,listing_id:202,status:'rejected',applied_at:new Date(Date.now()-864e5*2.2).toISOString()},
+      {id:304,user_id:4,listing_id:203,status:'viewed',applied_at:new Date(Date.now()-864e5*0.7).toISOString()},
+      {id:305,user_id:1,listing_id:204,status:'pending',applied_at:new Date(Date.now()-864e5*3.3).toISOString()},
+      {id:306,user_id:2,listing_id:203,status:'pending',applied_at:new Date(Date.now()-864e5*0.1).toISOString()}
+    ],
+    ui:{q:'',status:'',provider:0,listing:0,sort:'applied_desc',page:1,per:15}
+  }
+}
+function loadState(){try{var s=localStorage.getItem(stateKey);if(!s){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}return JSON.parse(s)}catch(e){var d=seed();localStorage.setItem(stateKey,JSON.stringify(d));return d}}
+function saveState(s){localStorage.setItem(stateKey,JSON.stringify(s))}
+var S=loadState();
+
+function providerName(id){var p=S.providers.find(x=>x.id===id);return p?p.company_name:'—'}
+function listingById(id){return S.listings.find(x=>x.id===id)}
+function userById(id){return S.users.find(x=>x.id===id)}
+
+function kpi(){var t=S.applications.length;var p=S.applications.filter(a=>a.status==='pending').length;var v=S.applications.filter(a=>a.status==='viewed').length;var ac=S.applications.filter(a=>a.status==='accepted').length;var r=S.applications.filter(a=>a.status==='rejected').length;document.getElementById('kpi-total').textContent=t;document.getElementById('kpi-pending').textContent=p;document.getElementById('kpi-viewed').textContent=v;document.getElementById('kpi-accepted').textContent=ac;document.getElementById('kpi-rejected').textContent=r}
+
+function buildProviderSelect(){var sel=document.getElementById('provider');sel.innerHTML='';var o=document.createElement('option');o.value='0';o.textContent='كل المزودين';sel.appendChild(o);S.providers.slice().sort((a,b)=>a.company_name.localeCompare(b.company_name,'ar')).forEach(function(p){var op=document.createElement('option');op.value=String(p.id);op.textContent=p.company_name;sel.appendChild(op)});sel.value=String(S.ui.provider||0)}
+function buildListingSelect(){var sel=document.getElementById('listing');var prov=parseInt(document.getElementById('provider').value||'0',10);sel.innerHTML='';var o=document.createElement('option');o.value='0';o.textContent='كل الفرص';sel.appendChild(o);S.listings.filter(l=>!prov||l.provider_id===prov).sort((a,b)=>{var pa=providerName(a.provider_id),pb=providerName(b.provider_id);return (pa+' - '+a.title).localeCompare(pb+' - '+b.title,'ar')}).forEach(function(l){var op=document.createElement('option');op.value=String(l.id);op.textContent=providerName(l.provider_id)+' - '+l.title;sel.appendChild(op)});sel.value=String(S.ui.listing||0)}
+
+function currentFilters(){return{q:document.getElementById('q').value.trim(),status:document.getElementById('status').value,provider:parseInt(document.getElementById('provider').value||'0',10),listing:parseInt(document.getElementById('listing').value||'0',10),sort:document.getElementById('sort').value,page:S.ui.page,per:S.ui.per}}
+
+function applyFilters(){var f=currentFilters();var rows=S.applications.slice().map(function(a){var u=userById(a.user_id)||{};var l=listingById(a.listing_id)||{};return{...a,uname:u.name||'—',uemail:u.email||'—',uphone:u.phone||'—',ucity:u.city||'—',ulevel:u.level||'—',ltitle:l.title||'—',pname:providerName(l.provider_id||0),lloc:l.location||'—',ldur:l.duration||'—',ldead:l.application_deadline?arDT(l.application_deadline):'—'}});if(f.q){var q=f.q.toLowerCase();rows=rows.filter(function(r){var blob=(r.uname+' '+r.uemail+' '+r.ltitle+' '+r.pname).toLowerCase();return blob.indexOf(q)>-1})}if(f.status){rows=rows.filter(r=>r.status===f.status)}if(f.provider){rows=rows.filter(r=>{var l=listingById(r.listing_id)||{};return l.provider_id===f.provider})}if(f.listing){rows=rows.filter(r=>r.listing_id===f.listing)}var sorters={applied_desc:(a,b)=>new Date(b.applied_at)-new Date(a.applied_at),applied_asc:(a,b)=>new Date(a.applied_at)-new Date(b.applied_at),user_asc:(a,b)=>a.uname.localeCompare(b.uname,'ar'),user_desc:(a,b)=>b.uname.localeCompare(a.uname,'ar'),status_asc:(a,b)=>a.status.localeCompare(b.status,'ar'),status_desc:(a,b)=>b.status.localeCompare(a.status,'ar'),provider_asc:(a,b)=>a.pname.localeCompare(b.pname,'ar'),provider_desc:(a,b)=>b.pname.localeCompare(a.pname,'ar'),listing_asc:(a,b)=>a.ltitle.localeCompare(b.ltitle,'ar'),listing_desc:(a,b)=>b.ltitle.localeCompare(a.ltitle,'ar')};rows.sort(sorters[f.sort]||sorters.applied_desc);document.getElementById('resultsCount').textContent=rows.length;var pages=Math.max(1,Math.ceil(rows.length/f.per));if(f.page>pages)f.page=pages;var off=(f.page-1)*f.per;renderTable(rows.slice(off,off+f.per));renderPager(pages,f.page);S.ui={q:f.q,status:f.status,provider:f.provider,listing:f.listing,sort:f.sort,page:f.page,per:f.per};saveState(S);kpi()}
+
+function renderTable(list){var body=document.getElementById('tbody-apps');body.innerHTML='';if(list.length===0){var tr=document.createElement('tr');tr.innerHTML='<td colspan="7" class="small">لا توجد بيانات</td>';body.appendChild(tr);return}list.forEach(function(r){var tr=document.createElement('tr');tr.dataset.id=r.id;tr.innerHTML='<td>'+r.uname+'</td>'+'<td>'+r.uemail+'</td>'+'<td>'+r.ltitle+'</td>'+'<td>'+r.pname+'</td>'+'<td>'+r.status+'</td>'+'<td class="small">'+arDT(r.applied_at)+'</td>'+'<td><div class="flex">'+'<button class="btn" style="padding:6px 10px" data-view>عرض</button>'+'<button class="btn ghost" style="padding:6px 10px" data-set="viewed">وضع: شوهد</button>'+'<button class="btn" style="padding:6px 10px" data-set="accepted">قبول</button>'+'<button class="btn ghost" style="padding:6px 10px" data-set="rejected">رفض</button>'+'<button class="btn ghost" style="padding:6px 10px;border-color:#f4caca;color:#b11" data-del>حذف</button>'+'</div></td>';tr.dataset.uname=r.uname;tr.dataset.uemail=r.uemail;tr.dataset.uphone=r.uphone;tr.dataset.ucity=r.ucity;tr.dataset.ulevel=r.ulevel;tr.dataset.ltitle=r.ltitle;tr.dataset.pname=r.pname;tr.dataset.lloc=r.lloc;tr.dataset.ldur=r.ldur;tr.dataset.ldead=r.ldead;tr.dataset.applied=arDT(r.applied_at);tr.dataset.status=r.status;tr.dataset.lid=r.listing_id;tr.dataset.uid=r.user_id;body.appendChild(tr)})}
+
+function renderPager(pages,cur){var p=document.getElementById('pager');p.innerHTML='';if(pages<=1)return;for(var i=1;i<=pages;i++){var b=document.createElement('button');b.className='btn '+(i===cur?'':'ghost');b.style.padding='6px 10px';b.textContent=String(i);b.addEventListener('click',function(e){S.ui.page=parseInt(e.target.textContent,10);applyFilters()});p.appendChild(b)}}
+
+function openModal(html){document.getElementById('modalBody').innerHTML=html;document.getElementById('modalWrap').style.display='flex';document.getElementById('modalBg').onclick=closeModal;document.getElementById('closeModal').onclick=closeModal}
+function closeModal(){document.getElementById('modalWrap').style.display='none';document.getElementById('modalBody').innerHTML=''}
+
+function viewRow(tr){var html='<div class="flex" style="gap:12px;flex-wrap:wrap">'+'<div class="card" style="flex:1;min-width:260px">'+'<h3>المتقدم</h3>'+'<div><strong>'+tr.dataset.uname+'</strong></div>'+'<div class="small">'+tr.dataset.uemail+'</div>'+'<div class="small">'+tr.dataset.uphone+'</div>'+'<div class="small">المدينة: '+(tr.dataset.ucity||'—')+' • المستوى: '+(tr.dataset.ulevel||'—')+'</div>'+'</div>'+'<div class="card" style="flex:1;min-width:260px">'+'<h3>الفرصة</h3>'+'<div><strong>'+tr.dataset.ltitle+'</strong></div>'+'<div class="small">'+tr.dataset.pname+'</div>'+'<div class="small">الموقع: '+(tr.dataset.lloc||'—')+' • المدة: '+(tr.dataset.ldur||'—')+'</div>'+'<div class="small">الموعد النهائي: '+(tr.dataset.ldead||'—')+'</div>'+'</div>'+'</div>'+'<div class="card" style="margin-top:10px">'+'<h3>بيانات الطلب</h3>'+'<div class="small">الحالة الحالية: <span id="m-status">'+tr.dataset.status+'</span> • تاريخ التقديم: '+tr.dataset.applied+'</div>'+'<div class="flex" style="gap:8px;margin-top:8px;flex-wrap:wrap">'+'<button class="btn ghost" style="padding:6px 10px" data-mset="viewed">وضع: شوهد</button>'+'<button class="btn" style="padding:6px 10px" data-mset="accepted">قبول</button>'+'<button class="btn ghost" style="padding:6px 10px" data-mset="rejected">رفض</button>'+'</div>'+'</div>';openModal(html);document.querySelectorAll('[data-mset]').forEach(function(b){b.addEventListener('click',function(){setStatus(parseInt(tr.dataset.id,10),this.dataset.mset);closeModal()})})}
+
+function setStatus(id,status){if(['pending','viewed','accepted','rejected'].indexOf(status)===-1)return;var a=S.applications.find(x=>x.id===id);if(!a)return;a.status=status;saveState(S);applyFilters();flash('تم تحديث حالة الطلب إلى: '+status)}
+function delApp(id){if(!confirm('حذف الطلب نهائيًا؟'))return;S.applications=S.applications.filter(x=>x.id!==id);saveState(S);applyFilters();flash('تم حذف الطلب')}
+
+function flash(msg){var f=document.getElementById('flash');f.textContent=msg;f.style.display='block';setTimeout(()=>f.style.display='none',3000)}
+
+function wireTableActions(){document.getElementById('tbody-apps').addEventListener('click',function(e){var tr=e.target.closest('tr');if(!tr)return;if(e.target.hasAttribute('data-view')){viewRow(tr)}if(e.target.hasAttribute('data-set')){setStatus(parseInt(tr.dataset.id,10),e.target.getAttribute('data-set'))}if(e.target.hasAttribute('data-del')){delApp(parseInt(tr.dataset.id,10))}})}
+
+function initFilters(){document.getElementById('q').value=S.ui.q||'';document.getElementById('status').value=S.ui.status||'';document.getElementById('sort').value=S.ui.sort||'applied_desc';buildProviderSelect();buildListingSelect();document.getElementById('provider').addEventListener('change',function(){S.ui.provider=parseInt(this.value||'0',10);buildListingSelect()});document.getElementById('filterForm').addEventListener('submit',function(e){e.preventDefault();S.ui.page=1;applyFilters()})}
+
+function init(){document.getElementById('admin-name').textContent=S.admin.name||'مشرف';initFilters();wireTableActions();applyFilters()}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
