@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إعدادات الحساب | تدريبي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--brand:#0a66b2;--brand-700:#084a85;--bg:#f5f8fc;--card:#ffffff;--line:#e6eef6;--text:#0d1b2a;--muted:#5d6f82;--shadow:0 12px 40px rgba(10,102,178,.12)}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}}
+html[data-mode="dark"]{--bg:#0c1520;--card:#111c29;--line:#152235;--text:#e8eef6;--muted:#9fb0c3;--shadow:0 12px 40px rgba(0,0,0,.5)}
+html[data-mode="light"]{--bg:#f5f8fc;--card:#ffffff;--line:#e6eef6;--text:#0d1b2a;--muted:#5d6f82;--shadow:0 12px 40px rgba(10,102,178,.12)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Tajawal",system-ui,Arial}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:var(--card);border-left:1px solid var(--line);position:sticky;top:0;height:100vh;padding:14px 12px;overflow:auto;z-index:60}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px;margin-bottom:8px;text-decoration:none;color:inherit}
+.brand .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#46a1ff);display:grid;place-items:center;color:#fff;font-weight:900}
+.brand .t{font-weight:900;color:var(--brand);font-size:18px}
+.menu{display:flex;flex-direction:column;gap:6px}
+.link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:inherit;text-decoration:none}
+.link:hover,.link.active{background:rgba(10,102,178,.08)}
+.badge{margin-right:auto;background:rgba(10,102,178,.12);color:var(--brand);border-radius:999px;padding:2px 8px;font-size:12px}
+.topbar{position:sticky;top:0;z-index:70;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+@media(prefers-color-scheme:dark){.topbar{background:rgba(17,28,41,.65)}}
+.topbar .right{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:9px 14px;font-weight:800;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--line)}
+.container{padding:16px;max-width:1320px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px;font-size:15px;color:var(--muted)}
+.kpi{display:flex;align-items:baseline;gap:6px}
+.kpi .n{font-size:26px;font-weight:900;color:var(--brand)}
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.table th,.table td{padding:10px;background:var(--card);border:1px solid var(--line)}
+.table th{color:var(--muted);font-weight:700}
+.table td:first-child,.table th:first-child{border-radius:8px 0 0 8px}
+.table td:last-child,.table th:last-child{border-radius:0 8px 8px 0}
+.small{font-size:12px;color:var(--muted)}
+.flex{display:flex;gap:8px;align-items:center}
+.input,textarea,select{font-family:"Tajawal",system-ui,Arial}
+.mode{border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.burger{display:none;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);z-index:50;opacity:0;visibility:hidden;transition:.25s}
+.backdrop.show{opacity:1;visibility:visible}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:rgba(10,102,178,.08);color:var(--text);border:1px solid #9ad0ff;border-radius:12px;padding:10px 14px;z-index:90;opacity:0;pointer-events:none;transition:.25s}
+.toast.show{opacity:1}
+@media(max-width:1200px){.grid{grid-template-columns:1fr 1fr}.cols-2{grid-template-columns:1fr}}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{position:fixed;inset:0 0 0 auto;width:min(280px,86vw);transform:translateX(100%);transition:transform .25s ease, box-shadow .25s;box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.burger{display:inline-block}}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="index.html"><div class="logo">ت</div><div class="t">تدريبي</div></a>
+  <nav class="menu">
+    <a class="link active" href="index.html">لوحة المزود</a>
+    <a class="link" href="provider_listings.html" data-open="listings">فرصي التدريبية</a>
+    <a class="link" href="provider_applications.html" data-open="applications">طلبات المتقدمين</a>
+    <a class="link" href="provider_settings.html" data-open="settings">إعدادات الحساب</a>
+    <a class="link" href="login.html" data-open="logout">خروج</a>
+  </nav>
+</aside>
+<div id="backdrop" class="backdrop"></div>
+<main>
+  <header class="topbar">
+    <div class="right">
+      <button id="burger" class="burger" type="button" aria-label="القائمة">☰</button>
+      <strong id="hello"></strong>
+      <span class="small" id="roleTag"></span>
+    </div>
+    <div class="right">
+      <button id="mode" class="mode" type="button">الوضع: تلقائي</button>
+      <a class="btn ghost" href="#">الصفحة الرئيسية</a>
+      <a class="btn" href="#">خروج</a>
+    </div>
+  </header>
+  <div class="container">
+    <div class="cols-2">
+      <div class="card">
+        <h3>البيانات الأساسية</h3>
+        <form id="profileForm" class="flex" style="flex-direction:column;gap:10px;margin-top:8px">
+          <label class="small">اسم المنشأة</label>
+          <input id="company_name" required style="padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+          <div class="flex" style="gap:8px;flex-wrap:wrap">
+            <div style="flex:1;min-width:200px">
+              <label class="small">النشاط/القطاع</label>
+              <input id="industry" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+            </div>
+            <div style="flex:1;min-width:200px">
+              <label class="small">رقم التواصل</label>
+              <input id="contact_number" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+            </div>
+          </div>
+          <label class="small">العنوان</label>
+          <textarea id="address" style="min-height:90px;padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)"></textarea>
+          <label class="small">البريد الإلكتروني</label>
+          <input id="email" type="email" required style="padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+          <div class="flex" style="justify-content:flex-end;gap:8px;margin-top:6px">
+            <button class="btn" type="submit">حفظ التغييرات</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h3>كلمة المرور</h3>
+        <form id="passForm" class="flex" style="flex-direction:column;gap:10px;margin-top:8px">
+          <label class="small">كلمة المرور الحالية</label>
+          <input id="cur_pass" type="password" required autocomplete="current-password" style="padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+          <label class="small">كلمة المرور الجديدة</label>
+          <input id="new_pass" type="password" required autocomplete="new-password" style="padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+          <label class="small">تأكيد كلمة المرور الجديدة</label>
+          <input id="new_pass2" type="password" required autocomplete="new-password" style="padding:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--text)">
+          <div class="small">سيتم تخزين كلمة المرور باستخدام SHA‑1.</div>
+          <div class="flex" style="justify-content:flex-end;gap:8px;margin-top:6px">
+            <button class="btn" type="submit">تحديث كلمة المرور</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>معلومات الحساب</h3>
+      <div class="flex" style="flex-wrap:wrap;gap:10px">
+        <div class="small">الحالة: <strong id="acc_status">—</strong></div>
+        <div class="small">تاريخ الإنشاء: <strong id="acc_created">—</strong></div>
+        <div class="small">المعرّف: <strong id="acc_id">—</strong></div>
+      </div>
+      <div class="small" style="margin-top:6px">ملاحظة: حالة الحساب تُدار من قبل الإدارة.</div>
+    </div>
+  </div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+function sha1(s){function r(n,x){return (x<<n)|(x>>> (32-n))}function h(i){return (i>>>0).toString(16).padStart(8,'0')}var b=unescape(encodeURIComponent(s)),l=b.length,w=[];for(var i=0;i<l;i++){w[i>>2]=(w[i>>2]||0)|((b.charCodeAt(i)&0xff)<< (24-(i%4)*8))}w[l>>2]=(w[l>>2]||0)| (0x80<< (24-(l%4)*8));var L=(((l+8)>>6)+1)*16;w.length=L;w[L-1]=l*8;var H0=0x67452301,H1=0xEFCDAB89,H2=0x98BADCFE,H3=0x10325476,H4=0xC3D2E1F0;var W=new Array(80);for(i=0;i<w.length;i+=16){for(var t=0;t<16;t++)W[t]=w[i+t]|0;for(t=16;t<80;t++)W[t]=r(1,(W[t-3]^W[t-8]^W[t-14]^W[t-16])|0);var a=H0,b0=H1,c=H2,d=H3,e=H4;for(t=0;t<80;t++){var f,k;if(t<20){f=(b0 & c)|((~b0)&d);k=0x5A827999}else if(t<40){f=b0^c^d;k=0x6ED9EBA1}else if(t<60){f=(b0 & c)|(b0 & d)|(c & d);k=0x8F1BBCDC}else{f=b0^c^d;k=0xCA62C1D6}var temp=(r(5,a)+f+e+k+(W[t]|0))|0;e=d;d=c;c=r(30,b0);b0=a;a=temp}H0=(H0+a)|0;H1=(H1+b0)|0;H2=(H2+c)|0;H3=(H3+d)|0;H4=(H4+e)|0}return h(H0)+h(H1)+h(H2)+h(H3)+h(H4)}
+var role='provider';
+var profile=JSON.parse(localStorage.getItem('tadribi_provider_profile')||'null');
+if(!profile){profile={id:1,company_name:'شركة تدريب',industry:'',address:'',contact_number:'',email:'provider@example.com',status:'approved',created_at:'2025-09-01 10:00:00',password_hash:'7c4a8d09ca3762af61e59520943dc26494f8941b'};localStorage.setItem('tadribi_provider_profile',JSON.stringify(profile));localStorage.setItem('tadribi_uname',profile.company_name)}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2000)}
+function fill(){document.getElementById('company_name').value=profile.company_name||'';document.getElementById('industry').value=profile.industry||'';document.getElementById('contact_number').value=profile.contact_number||'';document.getElementById('address').value=profile.address||'';document.getElementById('email').value=profile.email||'';document.getElementById('acc_status').textContent=profile.status||'—';document.getElementById('acc_created').textContent=profile.created_at||'—';document.getElementById('acc_id').textContent=profile.id||'—'}
+function save(){localStorage.setItem('tadribi_provider_profile',JSON.stringify(profile))}
+function initProfile(){document.getElementById('profileForm').addEventListener('submit',function(e){e.preventDefault();var name=document.getElementById('company_name').value.trim();var ind=document.getElementById('industry').value.trim();var addr=document.getElementById('address').value.trim();var phone=document.getElementById('contact_number').value.trim();var email=document.getElementById('email').value.trim();if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast('تحقق من الحقول المطلوبة');return}profile.company_name=name;profile.industry=ind;profile.address=addr;profile.contact_number=phone;profile.email=email;save();localStorage.setItem('tadribi_uname',name);document.getElementById('hello').textContent='مرحبًا، '+name;toast('تم تحديث البيانات')})}
+function initPass(){document.getElementById('passForm').addEventListener('submit',function(e){e.preventDefault();var c=document.getElementById('cur_pass').value;var n=document.getElementById('new_pass').value;var n2=document.getElementById('new_pass2').value;if(!n||n!==n2){toast('تأكد من كلمات المرور');return}if(sha1(c)!==(profile.password_hash||'')){toast('كلمة المرور الحالية غير صحيحة');return}profile.password_hash=sha1(n);save();document.getElementById('cur_pass').value='';document.getElementById('new_pass').value='';document.getElementById('new_pass2').value='';toast('تم تحديث كلمة المرور')})}
+function initMode(){var mb=document.getElementById('mode');var m=localStorage.getItem('mode');if(m==='dark'){document.documentElement.setAttribute('data-mode','dark');mb.textContent='الوضع: ليلي'}else if(m==='light'){document.documentElement.setAttribute('data-mode','light');mb.textContent='الوضع: نهاري'}else{document.documentElement.removeAttribute('data-mode');mb.textContent='الوضع: تلقائي'}mb.addEventListener('click',function(){var html=document.documentElement,cur=html.getAttribute('data-mode');if(cur==='dark'){html.setAttribute('data-mode','light');localStorage.setItem('mode','light');this.textContent='الوضع: نهاري'}else if(cur==='light'){html.removeAttribute('data-mode');localStorage.removeItem('mode');this.textContent='الوضع: تلقائي'}else{html.setAttribute('data-mode','dark');localStorage.setItem('mode','dark');this.textContent='الوضع: ليلي'}})}
+function initMenu(){var burger=document.getElementById('burger'),sidebar=document.getElementById('sidebar'),backdrop=document.getElementById('backdrop');function openMenu(){sidebar.classList.add('open');backdrop.classList.add('show');document.body.style.overflow='hidden'}function closeMenu(){sidebar.classList.remove('open');backdrop.classList.remove('show');document.body.style.overflow=''}if(burger)burger.addEventListener('click',openMenu);if(backdrop)backdrop.addEventListener('click',closeMenu);document.querySelectorAll('.menu .link').forEach(function(el){el.addEventListener('click',closeMenu)})}
+function boot(){var uname=localStorage.getItem('tadribi_uname')||profile.company_name||'مزود';document.getElementById('hello').textContent='مرحبًا، '+uname;document.getElementById('roleTag').textContent='دور: '+(role||'—');initMode();initMenu();fill();initProfile();initPass()}
+boot()
+</script>
+</body>
+</html>
